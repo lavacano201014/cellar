@@ -1,0 +1,10 @@
+*.in
+*.o
+*/.deps
+
+compile
+config.*
+configure
+depcomp
+install-sh
+missing
