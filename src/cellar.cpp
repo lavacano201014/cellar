@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
 					stringstream sstr;
 					sstr << configstream.rdbuf();
 					config = json::parse(sstr.str());
-	
-					cout << "has a json" << endl;
+
+					cout << "- " << config["name"];
 				}
 				catch (const exception &exc) {
 					cout << "- bogus cellar.json file" << endl;
