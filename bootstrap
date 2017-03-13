@@ -1,2 +1,7 @@
-[ -d m4 ] || mkdir m4
-aclocal -I m4 --install
+#!/bin/sh
+
+if [ ! -d "m4" ]; then
+	mkdir m4
+fi
+
+autoreconf --install
