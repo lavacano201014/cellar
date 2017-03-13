@@ -1,0 +1,2 @@
+[ -d m4 ] || mkdir m4
+aclocal -I m4 --install
