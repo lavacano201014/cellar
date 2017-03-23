@@ -79,6 +79,11 @@ void cellar::bottles::print_bottles(int argc, char** argv) {
     map<string, Bottle> bottles = get_bottles();
 
     for (auto item : bottles) {
+        if (item.first == ".wine" || item.first == ".wine.template") {
+            // .wine is considered to be "active", and .wine.template is used as a template
+            // and therefore treated specially
+            continue;
+        }
         Bottle bottle = item.second;
         cout << item.first << " - ";
         switch (bottle.type) {
