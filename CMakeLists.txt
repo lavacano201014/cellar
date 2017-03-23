@@ -49,7 +49,8 @@ foreach(cogfile ${cogfiles})
 endforeach(cogfile)
 
 add_library(bottles SHARED ${src}/bottles/bottles.cpp
-        ${src}/bottles/active.cpp ${src}/bottles/commands.cpp)
+        ${src}/bottles/active.cpp ${src}/bottles/commands.cpp
+        ${src}/bottles/activate.cpp)
 add_dependencies(bottles cog)
 
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
