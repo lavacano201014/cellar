@@ -1,3 +1,4 @@
 #!/bin/sh
 
-cmake .
+# /usr can be changed to another prefix if you desire
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
