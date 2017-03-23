@@ -16,7 +16,7 @@ string cellar::version::short_version() {
          today = datetime.datetime.today()
 
          cparse = configparser.ConfigParser()
-         cparse.read("../cogrc")
+         cparse.read("cogrc")
          config = cparse["version"]
 
          if config.getboolean("release"):
