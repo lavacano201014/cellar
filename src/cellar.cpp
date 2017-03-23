@@ -32,8 +32,12 @@ int main(int argc, char* argv[]) {
         const string desc = "bottle management tool for WINE connoisseurs";
         const string versionstr = version::short_version();
         TCLAP::CmdLine cmdparse(desc, ' ', versionstr, false);
+        
         TCLAP::UnlabeledValueArg<string> command("command", "Specific command to run.", true, "help", "command");
         cmdparse.add(command);
+
+        TCLAP::UnlabeledMultiArg<string> subargs("subargs", "Sub-arguments", false, "", "subarg");
+        cmdparse.add(subargs);
 
         cmdparse.parse(argc, argv);
 
@@ -43,9 +47,8 @@ int main(int argc, char* argv[]) {
 
         string usercmd = command.getValue();
         if (commands::command_map.count(usercmd) > 0) {
-            int subargc = 0;
-            vector<string> subargv;
-            commands::command_map[usercmd](subargc, subargv);
+            vector<string> subargv = subargs.getValue();
+            commands::command_map[usercmd](subargv.size(), subargv);
         } else {
             cerr << "invalid command: " << usercmd << endl;
             return 1;
