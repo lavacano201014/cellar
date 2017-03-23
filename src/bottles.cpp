@@ -10,6 +10,7 @@
 #include "json.hpp"
 
 #include "bottles.hpp"
+#include "commands.hpp"
 #include "fs.hpp"
 
 using namespace std;
@@ -30,7 +31,7 @@ map<string, Bottle> cellar::bottles::get_bottles() {
 	string homepath = getenv("HOME");
 	vector<string> homedir = cellar::fs::listdir(homepath);
 	for (string item : homedir) {
-		if (item.substr(0,5) == ".wine") {
+		if (item.substr(0,6) == ".wine.") {
             Bottle output;
 
             string fullitem = homepath + "/" + item;
@@ -71,3 +72,27 @@ map<string, Bottle> cellar::bottles::get_bottles() {
 
 	return result;
 }
+
+void print_bottles(int argc, char** argv) {
+    map<string, Bottle> bottles = get_bottles();
+
+    for (auto item : bottles) {
+        Bottle bottle = item.second;
+        cout << item.first << " - ";
+        switch (bottle.type) {
+            case bottle_anonymous:
+                cout << "anonymous wine bottle";
+                break;
+            case bottle_symlink:
+                cout << "symlink to " << bottle.canonical_path;
+                break;
+            case bottle_labelled:
+                cout << bottle.config["name"];
+                break;
+            default:
+                cout << "broken or unsupported wine bottle";
+        }
+        cout << endl;
+    }
+}
+cellar::commands::CommandFunction listcmd = cellar::commands::command_map["list"] = &print_bottles;
