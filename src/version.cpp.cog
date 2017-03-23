@@ -33,7 +33,7 @@ string cellar::version::short_version() {
                 outstring = "exception raised when trying to read git data at precompile time"
                 raise
 
-         cog.outl("return \"{0}\";".format(outstring))
+         cog.outl("return string(\"{0}\");".format(outstring))
     ]]]*/
     //[[[end]]]
 }
@@ -41,4 +41,4 @@ string cellar::version::short_version() {
 void print_version(int argc, char** argv) {
     cout << short_version() << endl;
 }
-bool _ = cellar::commands::add_command("version", &print_version);
+cellar::commands::CommandFunction versioncmd = cellar::commands::command_map["version"] = &print_version;

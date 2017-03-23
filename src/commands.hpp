@@ -12,7 +12,7 @@ namespace cellar {
         typedef void (*CommandFunction)(int, char*[]);
         extern map<string, CommandFunction> command_map;
 
-        bool add_command(string, CommandFunction);
+        void add_command(string, CommandFunction);
         vector<string> list_commands();
     }
 }

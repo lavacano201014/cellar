@@ -16,6 +16,9 @@ if test "$COG" == "not found" ; then
     AC_SUBST(COG)
 fi
 
+AX_CXX_HAVE_SSTREAM
+PKG_CHECK_MODULES([TCLAP], [tclap >= 1.2.1])
+
 AX_BOOST_BASE([1.63], , [AC_MSG_ERROR([boost 1.63 required])])
 AX_BOOST_SYSTEM
 AX_BOOST_FILESYSTEM
