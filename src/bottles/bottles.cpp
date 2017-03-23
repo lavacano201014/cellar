@@ -10,7 +10,7 @@
 #include "json.hpp"
 
 #include "bottles.hpp"
-#include "commands.hpp"
+#include "internal/bottles.hpp"
 #include "dll.hpp"
 #include "fs.hpp"
 
@@ -33,7 +33,7 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	string homepath = getenv("HOME");
 	vector<string> homedir = cellar::fs::listdir(homepath);
 	for (string item : homedir) {
-		if (item.substr(0,6) == ".wine.") {
+		if (item.substr(0,5) == ".wine") {
             Bottle output;
 
             string fullitem = homepath + "/" + item;
@@ -75,7 +75,7 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	return result;
 }
 
-void print_bottles(int argc, char** argv) {
+void cellar::bottles::print_bottles(int argc, char** argv) {
     map<string, Bottle> bottles = get_bottles();
 
     for (auto item : bottles) {
@@ -96,9 +96,4 @@ void print_bottles(int argc, char** argv) {
         }
         cout << endl;
     }
-}
-DLL_PUBLIC map<string, CommandFunction> cellar::commands::bottles_commands() {
-    map<string, CommandFunction> result;
-    result.insert(pair<string,CommandFunction>("list", &print_bottles));
-    return result;
 }

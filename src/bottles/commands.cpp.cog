@@ -1,0 +1,28 @@
+// vim: filetype=cpp :
+#include <map>
+
+#include "bottles.hpp"
+#include "internal/bottles.hpp"
+#include "commands.hpp"
+#include "dll.hpp"
+
+using namespace std;
+using namespace cellar::bottles;
+using namespace cellar::commands;
+
+DLL_PUBLIC map<string, CommandFunction> cellar::commands::bottles_commands() {
+    map<string, CommandFunction> result;
+    /*[[[cog
+         import cog
+
+         with open("src/bottles/commands.txt") as commandfile:
+            for line in commandfile:
+                linesplit = line.split(" ")
+                name = linesplit[0]
+                func = linesplit[1]
+
+                cog.outl("result.insert(pair<string,CommandFunction>(\"{0}\", &{1}));".format(name, func))
+      ]]]*/
+    //[[[end]]]
+    return result;
+}
