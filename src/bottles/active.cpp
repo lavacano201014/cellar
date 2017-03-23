@@ -3,9 +3,6 @@
 #include <map>
 #include <string>
 
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
-
 #include "bottles.hpp"
 #include "internal/bottles.hpp"
 
