@@ -10,7 +10,7 @@ namespace cellar {
          
          with open("src/bottles/commands.txt") as commandsfile:
             for line in commandsfile:
-                item = line.split(" ")
+                item = line.strip().split(" ")
                 cog.outl("extern void {0} (int, char**);".format(item[1]))
       ]]]*/
     //[[[end]]]

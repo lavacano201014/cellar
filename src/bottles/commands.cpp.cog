@@ -17,7 +17,7 @@ DLL_PUBLIC map<string, CommandFunction> cellar::commands::bottles_commands() {
 
          with open("src/bottles/commands.txt") as commandfile:
             for line in commandfile:
-                linesplit = line.split(" ")
+                linesplit = line.strip().split(" ")
                 name = linesplit[0]
                 func = linesplit[1]
 
