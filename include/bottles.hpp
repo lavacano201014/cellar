@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 
+#include "commands.hpp"
 #include "json.hpp"
 
 using namespace std;
@@ -27,8 +28,11 @@ namespace cellar {
                 string canonical_path;
                 Bottle();
         };
-		map<string, Bottle> get_bottles();
+		extern map<string, Bottle> get_bottles();
 	}
+    namespace commands {
+        extern map<string, cellar::commands::CommandFunction> bottles_commands();
+    }
 }
 
 #endif // __BOTTLES_HPP

@@ -37,6 +37,10 @@ int main(int argc, char* argv[]) {
 
         cmdparse.parse(argc, argv);
 
+        for (auto item : commands::bottles_commands()) {
+            commands::command_map[item.first] = item.second;
+        }
+
         string usercmd = command.getValue();
         if (commands::command_map.count(usercmd) > 0) {
             commands::command_map[usercmd](argc, argv);

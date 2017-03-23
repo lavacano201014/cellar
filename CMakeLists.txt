@@ -35,9 +35,11 @@ foreach(cogfile ${cogfiles})
         set(coggedfiles ${coggedfiles} "${thisfile}")
 endforeach(cogfile)
 
+add_library(bottles SHARED ${src}/bottles/bottles.cpp)
+
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
 
 add_executable(cellar ${src}/cellar.cpp ${src}/commands.cpp ${src}/fs.cpp
-        ${src}/bottles.cpp ${src}/version.cpp)
+        ${src}/version.cpp)
 add_dependencies(cellar cog)
-target_link_libraries(cellar ${Boost_LIBRARIES})
+target_link_libraries(cellar ${Boost_LIBRARIES} bottles)

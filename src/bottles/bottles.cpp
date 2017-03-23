@@ -11,11 +11,13 @@
 
 #include "bottles.hpp"
 #include "commands.hpp"
+#include "dll.hpp"
 #include "fs.hpp"
 
 using namespace std;
 using namespace cellar::bottles;
 
+using CommandFunction = cellar::commands::CommandFunction;
 using json = nlohmann::json;
 
 Bottle::Bottle() {
@@ -25,7 +27,7 @@ Bottle::Bottle() {
     type = bottle_anonymous;
 }
 
-map<string, Bottle> cellar::bottles::get_bottles() {
+DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	map<string, Bottle> result;
 
 	string homepath = getenv("HOME");
@@ -95,4 +97,8 @@ void print_bottles(int argc, char** argv) {
         cout << endl;
     }
 }
-cellar::commands::CommandFunction listcmd = cellar::commands::command_map["list"] = &print_bottles;
+DLL_PUBLIC map<string, CommandFunction> cellar::commands::bottles_commands() {
+    map<string, CommandFunction> result;
+    result.insert(pair<string,CommandFunction>("list", &print_bottles));
+    return result;
+}
