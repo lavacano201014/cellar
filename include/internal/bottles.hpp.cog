@@ -1,0 +1,20 @@
+// vim: filetype=cpp :
+#ifndef __INTERNAL_BOTTLES_HPP
+#define __INTERNAL_BOTTLES_HPP
+#pragma once
+
+namespace cellar {
+    namespace bottles {
+    /*[[[cog
+         import cog
+         
+         with open("src/bottles/commands.txt") as commandsfile:
+            for line in commandsfile:
+                item = line.split(" ")
+                cog.outl("extern void {0} (int, char**);".format(item[1]))
+      ]]]*/
+    //[[[end]]]
+    }
+}
+
+#endif // __INTERNAL_BOTTLES_HPP

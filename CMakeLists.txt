@@ -40,7 +40,7 @@ foreach(cogfile ${cogfiles})
         string(REGEX REPLACE ".cog\$" "" outfile "${cogfile}")
         set(thisfile "${CMAKE_CURRENT_SOURCE_DIR}/${outfile}")
 
-        add_custom_command(OUTPUT "${thisfile}"
+        add_custom_command(OUTPUT "${thisfile}" PRE_BUILD
                 COMMAND ${PYTHON_EXECUTABLE} -m cogapp -d -o "${outfile}" "${cogfile}"
                 DEPENDS ${cogfile}
                 COMMENT "Greasing the cog for ${thisfile}")
@@ -50,6 +50,7 @@ endforeach(cogfile)
 
 add_library(bottles SHARED ${src}/bottles/bottles.cpp
         ${src}/bottles/active.cpp ${src}/bottles/commands.cpp)
+add_dependencies(bottles cog)
 
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
 
