@@ -6,6 +6,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(PythonInterp)
 find_package(Boost 1.63 REQUIRED COMPONENTS filesystem)
 
+find_package(PkgConfig)
+pkg_check_modules(TCLAP "tclap >= 1.2.1")
+if(NOT TCLAP_FOUND)
+MESSAGE(WARNING "TCLAP is required by this project, but was not found by CMake.
+Continuing on the assumption that you've downloaded it from
+http://tclap.sourceforge.net and put the headers in ./include
+(wink, nudge)")
+endif(NOT TCLAP_FOUND)
+
 include_directories(include)
 set(src "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
