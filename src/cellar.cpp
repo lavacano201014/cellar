@@ -6,34 +6,17 @@
 #include "json.hpp"
 
 #include "bottles.hpp"
+#include "commands.hpp"
 
 using namespace std;
 using namespace cellar;
 using json = nlohmann::json;
 
 int main(int argc, char* argv[]) {
-	map<string, bottles::Bottle> bottles = bottles::get_bottles();
-	for (auto& item : bottles) {
-        cout << item.first << "- ";
-        bottles::Bottle current = item.second;
-
-        switch (current.type) {
-            case bottles::bottle_anonymous:
-                cout << "anonymous wine bottle";
-                break;
-            case bottles::bottle_labelled:
-                cout << current.config["name"];
-                break;
-            case bottles::bottle_symlink:
-                cout << "symlink to ";
-                cout << current.canonical_path;
-                break;
-            default:
-                cout << "broken or unsupported wine bottle";
-        }
-        
-        cout << endl;
-	}
-
-	return 0;
+    vector<string> commands = commands::list_commands();
+    cout << "cellar - bottle management tool for WINE connoisseurs" << std::endl;
+    for (string item : commands) {
+        cout << item << " has loaded" << endl;
+    }
+    return 0;
 }
