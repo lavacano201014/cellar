@@ -1,0 +1,13 @@
+// vim: filetype=cpp :
+
+#include "version.hpp"
+
+string cellar::version::short_version() {
+    /*[[[cog
+         import cog
+         print("// I came from the print function!")
+
+         cog.outl("return \"dummy cog file!\";")
+    ]]]*/
+    //[[[end]]]
+}
