@@ -7,6 +7,7 @@
 
 #include "bottles.hpp"
 #include "commands.hpp"
+#include "version.hpp"
 
 using namespace std;
 using namespace cellar;
@@ -15,6 +16,7 @@ using json = nlohmann::json;
 int main(int argc, char* argv[]) {
     vector<string> commands = commands::list_commands();
     cout << "cellar - bottle management tool for WINE connoisseurs" << std::endl;
+    cout << version::short_version() << std::endl;
     for (string item : commands) {
         cout << item << " has loaded" << endl;
     }

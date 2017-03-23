@@ -2,6 +2,10 @@
 #define __VERSION_HPP
 #pragma once
 
+#include <string>
+
+using namespace std;
+
 namespace cellar {
     namespace version {
         string short_version();
