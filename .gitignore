@@ -16,3 +16,5 @@ aclocal.m4
 autom4te.cache
 
 src/version.cpp
+src/bottles/commands.cpp
+include/internal/bottles.hpp
