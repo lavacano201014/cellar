@@ -3,6 +3,9 @@ project(cellar CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# local cmake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/Modules)
+
 # for installation rules, from CMake wiki
 SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/cellar")
 
@@ -11,6 +14,9 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/cellar")
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 find_package(PythonInterp)
+find_package(PythonModule)
+find_python_module(cogapp REQUIRED)
+
 find_package(Boost 1.63 REQUIRED COMPONENTS filesystem)
 
 find_package(PkgConfig)
