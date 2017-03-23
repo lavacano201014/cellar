@@ -3,6 +3,13 @@ project(cellar CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# for installation rules, from CMake wiki
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/cellar")
+
+# add the automatically determined parts of the RPATH
+# which point to directories outside the build tree to the install RPATH
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 find_package(PythonInterp)
 find_package(Boost 1.63 REQUIRED COMPONENTS filesystem)
 
@@ -43,3 +50,8 @@ add_custom_target(cog ALL DEPENDS ${coggedfiles})
 add_executable(cellar ${src}/cellar.cpp ${src}/commands.cpp ${src}/fs.cpp
         ${src}/version.cpp)
 target_link_libraries(cellar ${Boost_LIBRARIES} bottles)
+
+install(TARGETS cellar bottles
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib/cellar
+        ARCHIVE DESTINATION share/cellar)
