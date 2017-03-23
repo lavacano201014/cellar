@@ -4,19 +4,4 @@ if [ ! -d "m4" ]; then
 	mkdir m4
 fi
 
-export COG=$(command -v cog)
-[ -z "$COG"] && export COG=$(command -v cog.py)
-
-if [ -z "$COG" ]; then
-    echo "Please install the Cog code generator, probably with pip install cogapp"
-    return 1
-fi
-
-echo "cog found at $COG"
-for cogfile in $(find src -name "*.cog"); do
-    decogged=${cogfile%.cog}
-    echo "greasing cog for ${decogged}..."
-    $COG -d -o ${decogged} ${cogfile}
-done
-
 autoreconf --install

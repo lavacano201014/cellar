@@ -1,15 +1,44 @@
 // vim: filetype=cpp :
+#include <iostream>
 
+#include "commands.hpp"
 #include "version.hpp"
+
+using namespace std;
+using namespace cellar::version;
 
 string cellar::version::short_version() {
     /*[[[cog
          import cog
-         import os
+         import configparser
+         import datetime
 
-         print(os.getcwd())
+         today = datetime.datetime.today()
 
-         cog.outl("return \"dummy cog file!\";")
+         cparse = configparser.ConfigParser()
+         cparse.read("../cogrc")
+         config = cparse["version"]
+
+         if config.getboolean("release"):
+            outstring = "version {0}, built {1}".format(config["release_version"], str(today))
+         else:
+            try:
+                import subprocess
+                cmdoutput = subprocess.check_output(["git", "symbolic-ref", "HEAD"]).decode().strip()
+                gitbranch = cmdoutput.split("/")[2]
+
+                githash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
+                outstring = "{0} {1}, built {2}".format(gitbranch, githash, str(today))
+            except:
+                outstring = "exception raised when trying to read git data at precompile time"
+                raise
+
+         cog.outl("return \"{0}\";".format(outstring))
     ]]]*/
     //[[[end]]]
 }
+
+void print_version(int argc, char** argv) {
+    cout << short_version() << endl;
+}
+bool _ = cellar::commands::add_command("version", &print_version);
