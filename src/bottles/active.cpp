@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
 
 #include "bottles.hpp"
 #include "internal/bottles.hpp"
@@ -9,7 +10,7 @@
 using namespace std;
 using namespace cellar::bottles;
 
-void cellar::bottles::print_active_bottle(int argc, char** argv) {
+void cellar::bottles::print_active_bottle(int argc, vector<string> argv) {
     map<string, Bottle> bottlemap = get_bottles();
     if (bottlemap.find(".wine") == bottlemap.end()) { // not found
         cout << "no active wine bottle" << endl;

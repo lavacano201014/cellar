@@ -75,7 +75,7 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	return result;
 }
 
-void cellar::bottles::print_bottles(int argc, char** argv) {
+void cellar::bottles::print_bottles(int argc, vector<string> argv) {
     map<string, Bottle> bottles = get_bottles();
 
     for (auto item : bottles) {

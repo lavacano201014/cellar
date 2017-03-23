@@ -9,7 +9,7 @@
 using namespace std;
 namespace cellar {
     namespace commands {
-        typedef void (*CommandFunction)(int, char*[]);
+        typedef void (*CommandFunction)(int, vector<string>);
         extern map<string, CommandFunction> command_map;
 
         void add_command(string, CommandFunction);

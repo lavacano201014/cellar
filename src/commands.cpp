@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include "commands.hpp"
 #include "cellar.hpp"
@@ -16,7 +18,7 @@ vector<string> cellar::commands::list_commands() {
     return result;
 }
 
-void help_command(int argc, char** argv) {
+void help_command(int argc, vector<string> argv) {
     vector<string> commands = list_commands();
     cellar::print_header();
 

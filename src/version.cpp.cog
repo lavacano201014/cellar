@@ -1,5 +1,7 @@
 // vim: filetype=cpp :
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include "commands.hpp"
 #include "version.hpp"
@@ -38,7 +40,7 @@ string cellar::version::short_version() {
     //[[[end]]]
 }
 
-void print_version(int argc, char** argv) {
+void print_version(int argc, vector<string> argv) {
     cout << short_version() << endl;
 }
 cellar::commands::CommandFunction versioncmd = cellar::commands::command_map["version"] = &print_version;
