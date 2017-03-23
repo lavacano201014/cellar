@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <fstream>
+#include <map>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -12,31 +13,38 @@
 #include "fs.hpp"
 
 using namespace std;
+using namespace cellar::bottles;
 
 using json = nlohmann::json;
 
-vector<string> cellar::bottles::list() {
-	stringstream sstr_output;
-	vector<string> result;
+Bottle::Bottle() {
+    // define a null bottle
+    // strings handle themselves
+    config = json({});
+    type = bottle_anonymous;
+}
+
+map<string, Bottle> cellar::bottles::get_bottles() {
+	map<string, Bottle> result;
 
 	string homepath = getenv("HOME");
 	vector<string> homedir = cellar::fs::listdir(homepath);
 	for (string item : homedir) {
 		if (item.substr(0,5) == ".wine") {
-			sstr_output << item;
-			sstr_output << " ";
-            
+            Bottle output;
+
             string fullitem = homepath + "/" + item;
+            output.path = fullitem;
+
             boost::filesystem::file_status fullitem_status = boost::filesystem::symlink_status(fullitem);
             bool symlink = boost::filesystem::is_symlink(fullitem_status);
 
             if (symlink) {
-                sstr_output << "- symlink to ";
                 boost::filesystem::path realpath = boost::filesystem::canonical(fullitem);
-                sstr_output << realpath.string();
-                result.push_back(sstr_output.str());
-                sstr_output.str("");
+                output.canonical_path = realpath.string();
+                output.type = bottle_symlink;
             } else {
+                output.canonical_path = fullitem;
 			    string jsonpath = fullitem + "/cellar.json";
 			    if (boost::filesystem::exists(jsonpath)) {
 			    	try {
@@ -44,25 +52,21 @@ vector<string> cellar::bottles::list() {
 			    		ifstream configstream(jsonpath);
 			    		stringstream sstr_config;
 			    		sstr_config << configstream.rdbuf();
-			    		config = json::parse(sstr_config.str());
-
-			    		sstr_output << "- " << config["name"];
-			    		result.push_back(sstr_output.str());
-			    		sstr_output.str(""); // clear it for the next item
+   			    		config = json::parse(sstr_config.str());
+                        
+                        output.config = config;
+                        output.type = bottle_labelled;
 			    	}
 			    	catch (const exception &exc) {
-			    		sstr_output << "- bogus cellar.json file";
-			    		result.push_back(sstr_output.str());
-			    		sstr_output.str("");
+                        output.type = bottle_error;
 			    	}
 			    }
-			    else { 
-			    	sstr_output << "- anonymous wine bottle";
-			    	result.push_back(sstr_output.str());
-			    	sstr_output.str("");
+			    else {
+                    output.type = bottle_anonymous;
 			    }
             }
-		}
+		    result[item] = output;
+        }
 	}
 
 	return result;
