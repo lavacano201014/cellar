@@ -47,7 +47,14 @@ int main(int argc, char* argv[]) {
 
         string usercmd = command.getValue();
         if (commands::command_map.count(usercmd) > 0) {
-            vector<string> subargv = subargs.getValue();
+            vector<string> subargv;
+            stringstream sstr;
+            sstr << "cellar ";
+            sstr << usercmd;
+            subargv.push_back(sstr.str());
+            for (auto item : subargs.getValue()) {
+                subargv.push_back(item);
+            }
             commands::command_map[usercmd](subargv.size(), subargv);
         } else {
             cerr << "invalid command: " << usercmd << endl;
