@@ -29,20 +29,21 @@ http://tclap.sourceforge.net and put the headers in ./include
 endif(NOT TCLAP_FOUND)
 
 include_directories(include)
-set(src "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(src "${CMAKE_SOURCE_DIR}/src")
 
 set(coggedfiles)
 
-file(GLOB_RECURSE cogfiles RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.cog")
+file(GLOB_RECURSE cogfiles RELATIVE "${CMAKE_SOURCE_DIR}"
+        "${CMAKE_SOURCE_DIR}/*.cog")
 
 foreach(cogfile ${cogfiles})
         string(REGEX REPLACE ".cog\$" "" outfile "${cogfile}")
-        set(thisfile "${CMAKE_CURRENT_SOURCE_DIR}/${outfile}")
+        set(thisfile "${CMAKE_SOURCE_DIR}/${outfile}")
 
         add_custom_command(OUTPUT "${thisfile}" PRE_BUILD
                 COMMAND ${PYTHON_EXECUTABLE} -m cogapp -d -o "${outfile}" "${cogfile}"
                 DEPENDS ${cogfile}
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                 COMMENT "Greasing the cog for ${thisfile}")
 
         set(coggedfiles ${coggedfiles} "${thisfile}")
