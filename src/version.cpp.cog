@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "cellar.hpp"
 #include "commands.hpp"
 #include "output.hpp"
 #include "version.hpp"
@@ -41,7 +42,6 @@ string cellar::version::short_version() {
     //[[[end]]]
 }
 
-void print_version(int argc, vector<string> argv) {
+void cellar::print_version(int argc, vector<string> argv) {
     cellar::output::statement(short_version());
 }
-cellar::commands::CommandFunction versioncmd = cellar::commands::command_map["version"] = &print_version;

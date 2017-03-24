@@ -1,3 +1,4 @@
+// vim: filetype=cpp :
 #include <iostream>
 #include <string>
 #include <vector>
@@ -37,4 +38,20 @@ void help_command(int argc, vector<string> argv) {
     }
     cout << endl;
 }
-CommandFunction helpcmd = command_map["help"] = &help_command;
+
+map<string, CommandFunction> cellar::commands::core_commands() {
+    map<string, CommandFunction> result;
+    /*[[[cog
+         import cog
+
+         with open("src/commands.txt") as commandfile:
+            for line in commandfile:
+                linesplit = line.strip().split(" ")
+                name = linesplit[0]
+                func = linesplit[1]
+
+                cog.outl("result.insert(pair<string,CommandFunction>(\"{0}\", &{1}));".format(name, func))
+      ]]]*/
+    //[[[end]]]
+    return result;
+}

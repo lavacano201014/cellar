@@ -14,6 +14,8 @@ namespace cellar {
 
         void add_command(string, CommandFunction);
         vector<string> list_commands();
+
+        extern map<string,CommandFunction> core_commands();
     }
 }
 
