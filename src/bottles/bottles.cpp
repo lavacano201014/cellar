@@ -13,8 +13,10 @@
 #include "internal/bottles.hpp"
 #include "dll.hpp"
 #include "fs.hpp"
+#include "output.hpp"
 
 using namespace std;
+using namespace cellar;
 using namespace cellar::bottles;
 
 using CommandFunction = cellar::commands::CommandFunction;
@@ -31,7 +33,7 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	map<string, Bottle> result;
 
 	string homepath = getenv("HOME");
-	vector<string> homedir = cellar::fs::listdir(homepath);
+	vector<string> homedir = fs::listdir(homepath);
 	for (string item : homedir) {
 		if (item.substr(0,5) == ".wine") {
             Bottle output;
@@ -78,6 +80,8 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 void cellar::bottles::print_bottles(int argc, vector<string> argv) {
     map<string, Bottle> bottles = get_bottles();
 
+    stringstream outstr;
+
     for (auto item : bottles) {
         if (item.first == ".wine" || item.first == ".wine.template") {
             // .wine is considered to be "active", and .wine.template is used as a template
@@ -85,20 +89,21 @@ void cellar::bottles::print_bottles(int argc, vector<string> argv) {
             continue;
         }
         Bottle bottle = item.second;
-        cout << item.first << " - ";
+        outstr << item.first << " - ";
         switch (bottle.type) {
             case bottle_anonymous:
-                cout << "anonymous wine bottle";
+                outstr << "anonymous wine bottle";
                 break;
             case bottle_symlink:
-                cout << "symlink to " << bottle.canonical_path;
+                outstr << "symlink to " << bottle.canonical_path;
                 break;
             case bottle_labelled:
-                cout << bottle.config["name"];
+                outstr << bottle.config["name"];
                 break;
             default:
-                cout << "broken or unsupported wine bottle";
+                outstr << "broken or unsupported wine bottle";
         }
-        cout << endl;
+        output::statement(outstr.str());
+        outstr.str("");
     }
 }

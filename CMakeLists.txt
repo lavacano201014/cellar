@@ -57,7 +57,7 @@ add_dependencies(bottles cog)
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
 
 add_executable(cellar ${src}/cellar.cpp ${src}/commands.cpp ${src}/fs.cpp
-        ${src}/version.cpp)
+        ${src}/version.cpp ${src}/output.cpp)
 target_link_libraries(cellar ${Boost_LIBRARIES} bottles)
 
 install(TARGETS cellar bottles

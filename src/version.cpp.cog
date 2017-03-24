@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "commands.hpp"
+#include "output.hpp"
 #include "version.hpp"
 
 using namespace std;
@@ -41,6 +42,6 @@ string cellar::version::short_version() {
 }
 
 void print_version(int argc, vector<string> argv) {
-    cout << short_version() << endl;
+    cellar::output::statement(short_version());
 }
 cellar::commands::CommandFunction versioncmd = cellar::commands::command_map["version"] = &print_version;

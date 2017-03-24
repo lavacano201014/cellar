@@ -6,6 +6,7 @@
 #include <boost/filesystem/path.hpp>
 
 #include "fs.hpp"
+#include "output.hpp"
 
 using namespace std;
 
@@ -21,7 +22,8 @@ vector<string> cellar::fs::listdir(string path) {
 			result.push_back(item);
         }
         catch (const exception& exc) {
-            cout << "[1;31mfuck[0m" << endl;
+            // TODO: better error handling
+            cellar::output::error("[1;31mfuck[0m");
         }
     }
 	return result;

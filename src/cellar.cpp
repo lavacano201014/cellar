@@ -11,6 +11,7 @@
 #include "bottles.hpp"
 #include "cellar.hpp"
 #include "commands.hpp"
+#include "output.hpp"
 #include "version.hpp"
 
 using namespace std;
@@ -18,8 +19,8 @@ using namespace cellar;
 using json = nlohmann::json;
 
 void cellar::print_header() {
-    cout << "cellar - bottle management tool for WINE connoisseurs" << std::endl;
-    cout << version::short_version() << std::endl;
+    output::statement("cellar - bottle management tool for WINE connoisseurs");
+    output::statement(version::short_version());
 }
 
 int main(int argc, char* argv[]) {
@@ -57,7 +58,10 @@ int main(int argc, char* argv[]) {
             }
             commands::command_map[usercmd](subargv.size(), subargv);
         } else {
-            cerr << "invalid command: " << usercmd << endl;
+            stringstream errstr;
+
+            errstr << "invalid command: " << usercmd;
+            output::error(errstr.str());
             return 1;
         }
         return 0;
