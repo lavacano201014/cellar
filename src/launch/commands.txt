@@ -1,0 +1,3 @@
+launch launch_command
+winecfg launch_winecfg
+regedit launch_regedit

@@ -15,6 +15,15 @@
 #include "output.hpp"
 #include "version.hpp"
 
+/*[[[cog
+     import cog
+
+     with open("src/modules.txt") as modules:
+        for module in modules:
+            cog.outl("#include \"internal/{0}.hpp\"".format(module.strip()))
+  ]]]*/
+//[[[end]]]
+
 using namespace std;
 using namespace cellar;
 using json = nlohmann::json;

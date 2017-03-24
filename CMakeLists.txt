@@ -54,11 +54,14 @@ add_library(bottles SHARED ${src}/bottles/bottles.cpp
         ${src}/bottles/activate.cpp)
 add_dependencies(bottles cog)
 
+add_library(launch SHARED ${src}/launch/launch.cpp ${src}/launch/commands.cpp
+        ${src}/launch/shortcuts.cpp)
+
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
 
 add_executable(cellar ${src}/cellar.cpp ${src}/commands.cpp ${src}/fs.cpp
         ${src}/version.cpp ${src}/output.cpp)
-target_link_libraries(cellar ${Boost_LIBRARIES} bottles)
+target_link_libraries(cellar ${Boost_LIBRARIES} bottles launch)
 
 install(TARGETS cellar bottles
         RUNTIME DESTINATION bin

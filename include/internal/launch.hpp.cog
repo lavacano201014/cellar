@@ -1,6 +1,6 @@
 // vim: filetype=cpp :
-#ifndef __INTERNAL_BOTTLES_HPP
-#define __INTERNAL_BOTTLES_HPP
+#ifndef __INTERNAL_LAUNCH_HPP
+#define __INTERNAL_LAUNCH_HPP
 #pragma once
 
 #include <map>
@@ -11,11 +11,11 @@
 using namespace cellar::commands;
 
 namespace cellar {
-    namespace bottles {
+    namespace launch {
     /*[[[cog
          import cog
          
-         with open("src/bottles/commands.txt") as commandsfile:
+         with open("src/launch/commands.txt") as commandsfile:
             for line in commandsfile:
                 item = line.strip().split(" ")
                 cog.outl("extern void {0} (int, vector<string>);".format(item[1]))
@@ -23,8 +23,8 @@ namespace cellar {
     //[[[end]]]
     }
     namespace commands {
-        extern map<string, cellar::commands::CommandFunction> bottles_commands();
+        extern map<string,CommandFunction> launch_commands();
     }
 }
 
-#endif // __INTERNAL_BOTTLES_HPP
+#endif // __INTERNAL_LAUNCH_HPP

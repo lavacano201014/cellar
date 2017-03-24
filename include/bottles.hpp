@@ -30,9 +30,6 @@ namespace cellar {
         };
 		extern map<string, Bottle> get_bottles();
 	}
-    namespace commands {
-        extern map<string, cellar::commands::CommandFunction> bottles_commands();
-    }
 }
 
 #endif // __BOTTLES_HPP
