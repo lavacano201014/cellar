@@ -1,19 +1,16 @@
 *.in
 *.o
+*.so
 */.deps
 
-compile
-config.*
-configure
-depcomp
-install-sh
-missing
-stamp-h1
+build/
+
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
 
 Makefile
 */Makefile
-aclocal.m4
-autom4te.cache
 
 src/version.cpp
 src/bottles/commands.cpp
