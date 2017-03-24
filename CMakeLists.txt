@@ -44,14 +44,14 @@ foreach(cogfile ${cogfiles})
                 COMMAND ${PYTHON_EXECUTABLE} -m cogapp -d -o "${outfile}" "${cogfile}"
                 DEPENDS ${cogfile}
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                COMMENT "Greasing the cog for ${thisfile}")
+                COMMENT "Greasing the cog for ${outfile}")
 
         set(coggedfiles ${coggedfiles} "${thisfile}")
 endforeach(cogfile)
 
 add_library(bottles SHARED ${src}/bottles/bottles.cpp
         ${src}/bottles/active.cpp ${src}/bottles/commands.cpp
-        ${src}/bottles/activate.cpp)
+        ${src}/bottles/activate.cpp ${src}/bottles/config/cli_handler.cpp)
 add_dependencies(bottles cog)
 
 add_library(launch SHARED ${src}/launch/launch.cpp ${src}/launch/commands.cpp
