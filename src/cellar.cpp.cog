@@ -65,11 +65,6 @@ int main(int argc, char* argv[]) {
 
         verbose = verbosearg.getValue();
 
-        // hardcoded because it's special
-        for (auto item : commands::core_commands()) {
-            commands::command_map[item.first] = item.second;
-        }
-        // as above, but cogged from src/modules.txt
         // BULLSHIT: trying to use str.format on this string causes bizarre compiler errors
         /*[[[cog
              import cog

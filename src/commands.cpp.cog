@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "commands.hpp"
+#include "internal/core.hpp"
 #include "cellar.hpp"
 
 using namespace std;
@@ -17,26 +18,6 @@ vector<string> cellar::commands::list_commands() {
         result.push_back(item.first);
     }
     return result;
-}
-
-void help_command(int argc, vector<string> argv) {
-    vector<string> commands = list_commands();
-    cellar::print_header();
-
-    cout << "You have these commands:\n" << endl;
-
-    int num_columns = 4;
-    int cur_column = 1;
-    for (string command : commands) {
-        cout << "\t" << command;
-        if (cur_column == num_columns) {
-            cout << endl;
-            cur_column = 1;
-        } else {
-            cur_column++;
-        }
-    }
-    cout << endl;
 }
 
 map<string, CommandFunction> cellar::commands::core_commands() {

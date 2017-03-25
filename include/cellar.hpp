@@ -10,7 +10,6 @@ using namespace std;
 
 namespace cellar {
     extern void print_header();
-    extern void print_version(int,vector<string>);
 
     extern bottles::Bottle active_bottle;
     
