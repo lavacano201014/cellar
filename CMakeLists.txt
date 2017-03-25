@@ -51,16 +51,22 @@ endforeach(cogfile)
 
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
 
-set(cellar_LIBRARIES)
-function(cellar_library target)
+function(get_sources globtarget output)
         file(GLOB_RECURSE targetsources RELATIVE "${CMAKE_SOURCE_DIR}"
-                "${CMAKE_SOURCE_DIR}/src/${target}/*.cpp")
+                "${CMAKE_SOURCE_DIR}/${globtarget}")
         file(GLOB_RECURSE targetcoggedsources RELATIVE "${CMAKE_SOURCE_DIR}"
-                "${CMAKE_SOURCE_DIR}/src/${target}/*.cpp.cog")
+                "${CMAKE_SOURCE_DIR}/${globtarget}.cog")
         foreach(targetcog ${targetcoggedsources})
                 string(REGEX REPLACE ".cog\$" "" this "${targetcog}")
                 set(targetsources ${targetsources} ${this})
         endforeach(targetcog)
+
+        set(${output} ${targetsources} PARENT_SCOPE)
+endfunction(get_sources)
+
+set(cellar_LIBRARIES)
+function(cellar_library target)
+        get_sources("src/${target}/*.cpp" targetsources)
 
         add_library(${target} SHARED ${targetsources})
         add_dependencies(${target} cog)
