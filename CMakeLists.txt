@@ -49,26 +49,36 @@ foreach(cogfile ${cogfiles})
         set(coggedfiles ${coggedfiles} "${thisfile}")
 endforeach(cogfile)
 
-add_library(bottles SHARED ${src}/bottles/bottles.cpp
-        ${src}/bottles/active.cpp ${src}/bottles/commands.cpp
-        ${src}/bottles/activate.cpp ${src}/bottles/config/cli_handler.cpp
-        ${src}/bottles/config/save_load.cpp)
-add_dependencies(bottles cog)
-
-add_library(launch SHARED ${src}/launch/launch.cpp ${src}/launch/commands.cpp
-        ${src}/launch/shortcuts.cpp)
-add_dependencies(launch cog)
-
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
+
+set(cellar_LIBRARIES)
+function(cellar_library target)
+        file(GLOB_RECURSE targetsources RELATIVE "${CMAKE_SOURCE_DIR}"
+                "${CMAKE_SOURCE_DIR}/src/${target}/*.cpp")
+        file(GLOB_RECURSE targetcoggedsources RELATIVE "${CMAKE_SOURCE_DIR}"
+                "${CMAKE_SOURCE_DIR}/src/${target}/*.cpp.cog")
+        foreach(targetcog ${targetcoggedsources})
+                string(REGEX REPLACE ".cog\$" "" this "${targetcog}")
+                set(targetsources ${targetsources} ${this})
+        endforeach(targetcog)
+
+        add_library(${target} SHARED ${targetsources})
+        add_dependencies(${target} cog)
+
+        set(cellar_LIBRARIES ${cellar_LIBRARIES} ${target} PARENT_SCOPE)
+endfunction(cellar_library)
+
+cellar_library(bottles)
+cellar_library(launch)
 
 add_executable(cellar ${src}/cellar.cpp ${src}/commands.cpp ${src}/fs.cpp
         ${src}/version.cpp ${src}/output.cpp ${src}/help/help.cpp)
-target_link_libraries(cellar ${Boost_LIBRARIES} bottles launch)
+target_link_libraries(cellar ${cellar_LIBRARIES} ${Boost_LIBRARIES})
 add_dependencies(cellar cog) # effectively redundant but a couple of the bin's
                              # files are cogged, so this is mostly for people
                              # looking at CMakeLists.txt for hints
 
-install(TARGETS cellar bottles launch
+install(TARGETS cellar ${cellar_LIBRARIES}
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib/cellar
         ARCHIVE DESTINATION share/cellar)
