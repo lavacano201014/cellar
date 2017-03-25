@@ -47,3 +47,16 @@ bool Bottle::save_config() {
     configstream << this->config.dump(4);
     return true;
 }
+
+string Bottle::get_config(string key) {
+    if (this->config.find(key) != this->config.end()) {
+        return this->config[key];
+    } else {
+        return "";
+    }
+}
+
+bool Bottle::set_config(string key, string value) {
+    this->config[key] = value;
+    return true;
+}
