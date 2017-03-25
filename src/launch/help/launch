@@ -1,0 +1,8 @@
+cellar launch <args> ...
+
+Launch WINE with the specified arguments (including, but not limited to, the
+Windows program of your choice).
+
+"cellar launch" will automatically modify your system's environment variables
+and WINE arguments as defined in the bottle's configuration file (cellar.json).
+No changes are made by default.

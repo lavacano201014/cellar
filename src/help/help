@@ -1,0 +1,3 @@
+cellar help [<command>]
+
+Prints a list of commands and their descriptions, or specify <command> for details about a specific command.

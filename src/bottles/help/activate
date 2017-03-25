@@ -1,0 +1,9 @@
+cellar activate <bottle>
+
+Marks a given WINE bottle as "active". <bottle> can be one of the following:
+ - An absolute path, or a relative path (prefixed with "./")
+ - A simple string, which is assumed to be a suffix for a cellar-managed WINE
+   bottle. For instance, "cellar activate example" would set the active WINE
+   bottle to "~/.wine.example".
+ - As above, with the ".wine." prefix. cellar will accept this, but will throw
+   warnings about it.

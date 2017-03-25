@@ -1,0 +1,5 @@
+cellar config get <key>
+cellar config set <key> <value>
+
+The first command prints the contents of <key> from cellar.json in the active
+WINE bottle. The second command sets <key> in the same file to <value>.

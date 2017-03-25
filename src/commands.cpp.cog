@@ -49,7 +49,7 @@ map<string, CommandFunction> cellar::commands::core_commands() {
                     cog.out("cellar::help::set_details(\"{0}\", R\"(".format(name))
                     with open("src/help/" + name) as detailsfile:
                         for detail in detailsfile:
-                            cog.out(detail)
+                            cog.out(detail, dedent=True, trimblanklines=True)
                     cog.out(")\");")
                 else:
                     print("-- No details are available for the {0} command.".format(name))

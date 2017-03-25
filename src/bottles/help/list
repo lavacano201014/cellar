@@ -1,0 +1,4 @@
+cellar list
+
+Prints a list of all cellar managable WINE bottles in your home directory, and
+some basic information about them.

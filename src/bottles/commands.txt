@@ -1,4 +1,4 @@
-list print_bottles
-active print_active_bottle
-activate switch_active_bottle
-config config_command
+list print_bottles List all available WINE bottles.
+active print_active_bottle Get the currently active WINE bottle.
+activate switch_active_bottle Switch the active WINE bottle.
+config config_command Change configuration options.
