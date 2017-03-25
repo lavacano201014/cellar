@@ -58,5 +58,6 @@ string Bottle::get_config(string key) {
 
 bool Bottle::set_config(string key, string value) {
     this->config[key] = value;
+    this->save_config();
     return true;
 }

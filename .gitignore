@@ -2,6 +2,7 @@
 *.o
 *.so
 */.deps
+*.swp
 
 build/
 

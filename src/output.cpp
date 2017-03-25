@@ -49,7 +49,7 @@ void cellar::output::warning(string str_message, bool verbose) {
     
     cerr << str_message << endl;
 }
-void cellar::output::warning(string str_message) { statement(str_message, false); }
+void cellar::output::warning(string str_message) { warning(str_message, false); }
 
 void cellar::output::error(string str_message, bool verbose) {
     if (verbose and !cellar::verbose) { return; }
@@ -64,5 +64,5 @@ void cellar::output::error(string str_message, bool verbose) {
     
     cerr << str_message << endl;
 }
-void cellar::output::error(string str_message) { statement(str_message, false); }
+void cellar::output::error(string str_message) { error(str_message, false); }
 
