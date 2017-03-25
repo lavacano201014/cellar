@@ -52,6 +52,10 @@ int main(int argc, char* argv[]) {
 
         cmdparse.parse(argc, argv);
 
+        // hardcoded because it's special
+        for (auto item : commands::core_commands()) {
+            commands::command_map[item.first] = item.second;
+        }
         /*[[[cog
              import cog
 
