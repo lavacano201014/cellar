@@ -34,6 +34,7 @@ void cellar::print_header() {
 }
 
 int main(int argc, char* argv[]) {
+    output::detect_colors();
     if (argc == 1) {
         print_header();
         cout << "\n(try \"cellar help\" if you're confused)" << endl;

@@ -8,6 +8,9 @@ namespace cellar {
         extern void statement(std::string parm);
         extern void warning(std::string parm);
         extern void error(std::string);
+
+        extern bool colors;
+        extern void detect_colors();
     }
 }
 
