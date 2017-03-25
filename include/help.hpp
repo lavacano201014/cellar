@@ -9,6 +9,7 @@ using namespace std;
 namespace cellar {
     namespace help {
         extern void set_description(string,string);
+        extern string get_description(string);
     }
 }
 

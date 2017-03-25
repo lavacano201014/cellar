@@ -77,8 +77,18 @@ endfunction(cellar_library)
 cellar_library(bottles)
 cellar_library(launch)
 
-add_executable(cellar ${src}/cellar.cpp ${src}/commands.cpp ${src}/fs.cpp
-        ${src}/version.cpp ${src}/output.cpp ${src}/help/help.cpp)
+file(GLOB coresources RELATIVE "${CMAKE_SOURCE_DIR}"
+        "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB corecoggedsources RELATIVE "${CMAKE_SOURCE_DIR}"
+        "${CMAKE_SOURCE_DIR}/src/*.cpp.cog")
+foreach(corecog ${corecoggedsources})
+        string(REGEX REPLACE ".cog\$" "" this "${corecog}")
+        set(coresources ${coresources} ${this})
+endforeach(corecog)
+
+get_sources("src/help/*.cpp" helpsources)
+
+add_executable(cellar ${coresources} ${helpsources})
 target_link_libraries(cellar ${cellar_LIBRARIES} ${Boost_LIBRARIES})
 add_dependencies(cellar cog) # effectively redundant but a couple of the bin's
                              # files are cogged, so this is mostly for people
