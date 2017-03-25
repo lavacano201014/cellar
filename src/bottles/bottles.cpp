@@ -50,25 +50,16 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
                 output.type = bottle_symlink;
             } else {
                 output.canonical_path = fullitem;
-			    string jsonpath = fullitem + "/cellar.json";
-			    if (boost::filesystem::exists(jsonpath)) {
-			    	try {
-			    		json config;
-			    		ifstream configstream(jsonpath);
-			    		stringstream sstr_config;
-			    		sstr_config << configstream.rdbuf();
-   			    		config = json::parse(sstr_config.str());
-                        
-                        output.config = config;
+		    	try {
+                    if (output.load_config()) {
                         output.type = bottle_labelled;
-			    	}
-			    	catch (const exception &exc) {
-                        output.type = bottle_error;
-			    	}
-			    }
-			    else {
-                    output.type = bottle_anonymous;
-			    }
+                    } else {
+                        output.type = bottle_anonymous;
+                    }
+    	    	}
+		    	catch (const exception &exc) {
+                    output.type = bottle_error;
+		    	}
             }
 		    result[item] = output;
         }

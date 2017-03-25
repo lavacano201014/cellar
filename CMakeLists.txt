@@ -51,7 +51,8 @@ endforeach(cogfile)
 
 add_library(bottles SHARED ${src}/bottles/bottles.cpp
         ${src}/bottles/active.cpp ${src}/bottles/commands.cpp
-        ${src}/bottles/activate.cpp ${src}/bottles/config/cli_handler.cpp)
+        ${src}/bottles/activate.cpp ${src}/bottles/config/cli_handler.cpp
+        ${src}/bottles/config/save_load.cpp)
 add_dependencies(bottles cog)
 
 add_library(launch SHARED ${src}/launch/launch.cpp ${src}/launch/commands.cpp

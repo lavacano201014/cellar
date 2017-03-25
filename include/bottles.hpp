@@ -27,6 +27,8 @@ namespace cellar {
                 string path;
                 string canonical_path;
                 Bottle();
+                bool load_config();
+                bool save_config();
         };
 		extern map<string, Bottle> get_bottles();
 	}
