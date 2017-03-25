@@ -3,6 +3,7 @@
 
 #include "cellar.hpp"
 #include "internal/core.hpp"
+#include "help.cpp"
 
 using namespace std;
 

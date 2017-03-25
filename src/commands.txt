@@ -1,2 +1,2 @@
-version print_version
+version print_version Prints version information.
 help help_command
