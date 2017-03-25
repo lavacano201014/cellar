@@ -5,10 +5,14 @@
 
 namespace cellar {
     namespace output {
-        extern void statement(std::string parm);
-        extern void warning(std::string parm);
+        extern void statement(std::string);
+        extern void warning(std::string);
         extern void error(std::string);
 
+        extern void statement(std::string parm, bool);
+        extern void warning(std::string, bool);
+        extern void error(std::string, bool);
+        
         extern bool colors;
         extern void detect_colors();
     }

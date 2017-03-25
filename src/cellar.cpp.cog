@@ -28,6 +28,8 @@ using namespace std;
 using namespace cellar;
 using json = nlohmann::json;
 
+bool cellar::verbose;
+
 void cellar::print_header() {
     output::statement("cellar - bottle management tool for WINE connoisseurs");
     output::statement(version::short_version());
@@ -44,6 +46,9 @@ int main(int argc, char* argv[]) {
         const string desc = "bottle management tool for WINE connoisseurs";
         const string versionstr = version::short_version();
         TCLAP::CmdLine cmdparse(desc, ' ', versionstr, false);
+
+        TCLAP::SwitchArg verbosearg("v", "verbose", "Enables extra output");
+        cmdparse.add(verbosearg);
         
         TCLAP::UnlabeledValueArg<string> command("command", "Specific command to run.", true, "help", "command");
         cmdparse.add(command);
@@ -53,18 +58,44 @@ int main(int argc, char* argv[]) {
 
         cmdparse.parse(argc, argv);
 
+        verbose = verbosearg.getValue();
+
         // hardcoded because it's special
+        vector<string> core_cmdnames; // mostly for verbose output
         for (auto item : commands::core_commands()) {
             commands::command_map[item.first] = item.second;
+            core_cmdnames.push_back(item.first);
         }
+
+        if (verbose) { // handling it here for efficiency
+            stringstream commandstring;
+            commandstring << "loading from core: ";
+            for (string item : core_cmdnames) {
+                commandstring << item << " ";
+            }
+            output::statement(commandstring.str(), true);
+        }
+        // as above, but cogged from src/modules.txt
+        // BULLSHIT: trying to use str.format on this string causes bizarre compiler errors
         /*[[[cog
              import cog
 
              with open("src/modules.txt") as modules:
                 for module in modules:
                     cog.out("""
+                        vector<string> """ + module.strip() + """_cmdnames;
                         for (auto item : commands::""" + module.strip() + """_commands()) {
                             commands::command_map[item.first] = item.second;
+                            """ + module.strip() + """_cmdnames.push_back(item.first);
+                        }
+
+                        if (verbose) {
+                            stringstream commandstring;
+                            commandstring << "loading from """ + module.strip() + """: ";
+                            for (string item : """ + module.strip() + """_cmdnames) {
+                                commandstring << item << " ";
+                            }
+                            output::statement(commandstring.str(), true);
                         }
                     """, dedent=True, trimblanklines=True)
           ]]]*/

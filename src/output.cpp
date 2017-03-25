@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "ansicol.hpp"
+#include "cellar.hpp"
 #include "output.hpp"
 
 using namespace std;
@@ -20,7 +21,9 @@ void cellar::output::detect_colors() {
     }
 }
 
-void cellar::output::statement(string str_message) {
+void cellar::output::statement(string str_message, bool verbose) {
+    if (verbose and !cellar::verbose) { return; }
+
     if (colors) {
         cout << ansicol::green << " >";
         cout << ansicol::green_bold << "> ";
@@ -31,7 +34,11 @@ void cellar::output::statement(string str_message) {
     
     cout << str_message << endl;
 }
-void cellar::output::warning(string str_message) {
+void cellar::output::statement(string str_message) { statement(str_message, false); }
+
+void cellar::output::warning(string str_message, bool verbose) {
+    if (verbose and !cellar::verbose) { return; }
+
     if (colors) {
         cerr << ansicol::yellow << " >";
         cerr << ansicol::yellow_bold << "> ";
@@ -42,7 +49,11 @@ void cellar::output::warning(string str_message) {
     
     cerr << str_message << endl;
 }
-void cellar::output::error(string str_message) {
+void cellar::output::warning(string str_message) { statement(str_message, false); }
+
+void cellar::output::error(string str_message, bool verbose) {
+    if (verbose and !cellar::verbose) { return; }
+
     if (colors) {
         cerr << ansicol::red << " >";
         cerr << ansicol::red_bold << "> ";
@@ -53,3 +64,5 @@ void cellar::output::error(string str_message) {
     
     cerr << str_message << endl;
 }
+void cellar::output::error(string str_message) { statement(str_message, false); }
+
