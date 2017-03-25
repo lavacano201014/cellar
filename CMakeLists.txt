@@ -57,12 +57,16 @@ add_dependencies(bottles cog)
 
 add_library(launch SHARED ${src}/launch/launch.cpp ${src}/launch/commands.cpp
         ${src}/launch/shortcuts.cpp)
+add_dependencies(launch cog)
 
 add_custom_target(cog ALL DEPENDS ${coggedfiles})
 
 add_executable(cellar ${src}/cellar.cpp ${src}/commands.cpp ${src}/fs.cpp
         ${src}/version.cpp ${src}/output.cpp)
 target_link_libraries(cellar ${Boost_LIBRARIES} bottles launch)
+add_dependencies(cellar cog) # effectively redundant but a couple of the bin's
+                             # files are cogged, so this is mostly for people
+                             # looking at CMakeLists.txt for hints
 
 install(TARGETS cellar bottles launch
         RUNTIME DESTINATION bin

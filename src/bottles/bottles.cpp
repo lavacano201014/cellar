@@ -30,6 +30,7 @@ Bottle::Bottle() {
 }
 
 Bottle::Bottle(string patharg) {
+    output::statement("loading bottle from " + patharg, true);
     config = json({});
     path = patharg;
     

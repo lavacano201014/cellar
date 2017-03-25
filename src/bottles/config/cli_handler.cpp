@@ -1,8 +1,8 @@
-#include <cstdlib>
 #include <string>
 #include <vector>
 
 #include "bottles.hpp"
+#include "cellar.hpp"
 #include "internal/bottles.hpp"
 #include "output.hpp"
 
@@ -26,11 +26,6 @@ void cellar::bottles::config_command(int argc, vector<string> argv) {
             return;
         }
 
-        // TEMP
-        string homedir = getenv("HOME");
-        Bottle active_bottle = Bottle(homedir + "/.wine");
-        active_bottle.load_config();
-
         string key = argv[2];
         string value = active_bottle.get_config(key);
         
@@ -44,11 +39,6 @@ void cellar::bottles::config_command(int argc, vector<string> argv) {
             output::statement("usage: " + argv[0] + " set <key> <value>");
             return;
         }
-
-        // TEMP
-        string homedir = getenv("HOME");
-        Bottle active_bottle = Bottle(homedir + "/.wine");
-        active_bottle.load_config();
 
         string key = argv[2];
         string newvalue = argv[3];
