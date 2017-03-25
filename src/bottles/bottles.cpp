@@ -29,6 +29,32 @@ Bottle::Bottle() {
     type = bottle_anonymous;
 }
 
+Bottle::Bottle(string patharg) {
+    config = json({});
+    path = patharg;
+    
+    boost::filesystem::file_status path_status = boost::filesystem::symlink_status(path);
+    bool symlink = boost::filesystem::is_symlink(path_status);
+
+    if (symlink) {
+        boost::filesystem::path realpath = boost::filesystem::canonical(path);
+        canonical_path = realpath.string();
+        type = bottle_symlink;
+    } else {
+        canonical_path = path;
+		try {
+            if (load_config()) {
+                type = bottle_labelled;
+            } else {
+                type = bottle_anonymous;
+            }
+    	}
+		catch (const exception &exc) {
+            type = bottle_error;
+		}
+    }
+}
+
 DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	map<string, Bottle> result;
 
@@ -36,31 +62,9 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	vector<string> homedir = fs::listdir(homepath);
 	for (string item : homedir) {
 		if (item.substr(0,5) == ".wine") {
-            Bottle output;
-
             string fullitem = homepath + "/" + item;
-            output.path = fullitem;
+            Bottle output(fullitem);
 
-            boost::filesystem::file_status fullitem_status = boost::filesystem::symlink_status(fullitem);
-            bool symlink = boost::filesystem::is_symlink(fullitem_status);
-
-            if (symlink) {
-                boost::filesystem::path realpath = boost::filesystem::canonical(fullitem);
-                output.canonical_path = realpath.string();
-                output.type = bottle_symlink;
-            } else {
-                output.canonical_path = fullitem;
-		    	try {
-                    if (output.load_config()) {
-                        output.type = bottle_labelled;
-                    } else {
-                        output.type = bottle_anonymous;
-                    }
-    	    	}
-		    	catch (const exception &exc) {
-                    output.type = bottle_error;
-		    	}
-            }
 		    result[item] = output;
         }
 	}

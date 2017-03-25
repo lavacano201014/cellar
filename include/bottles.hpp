@@ -22,13 +22,21 @@ namespace cellar {
         };
         class Bottle {
             public:
+                // public members
                 bottle_type type;
                 json config;
                 string path;
                 string canonical_path;
+                
+                // constructors
                 Bottle();
+                Bottle(string);
+                
+                // methods
                 bool load_config();
                 bool save_config();
+                string get_config(string);
+                bool set_config(string, string);
         };
 		extern map<string, Bottle> get_bottles();
 	}
