@@ -10,6 +10,9 @@ namespace cellar {
     namespace help {
         extern void set_description(string,string);
         extern string get_description(string);
+        
+        extern void set_details(string,string);
+        extern string get_details(string);
     }
 }
 

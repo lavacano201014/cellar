@@ -5,6 +5,7 @@
 #include "internal/bottles.hpp"
 #include "commands.hpp"
 #include "dll.hpp"
+#include "help.hpp"
 
 using namespace std;
 using namespace cellar::bottles;
@@ -14,6 +15,7 @@ DLL_PUBLIC map<string, CommandFunction> cellar::commands::bottles_commands() {
     map<string, CommandFunction> result;
     /*[[[cog
          import cog
+         import os
 
          with open("src/bottles/commands.txt") as commandfile:
             for line in commandfile:
@@ -30,6 +32,17 @@ DLL_PUBLIC map<string, CommandFunction> cellar::commands::bottles_commands() {
                              .replace("\"", "\\\"")
                              .replace("\\", "\\\\")))
                              # the replace methods escape " and \ characters
+                else:
+                    print("-- No description is available for the {0} command.".format(name))
+
+                if os.path.exists("src/bottles/help/" + name):
+                    cog.out("cellar::help::set_details(\"{0}\", R\"(".format(name))
+                    with open("src/bottles/help/" + name) as detailsfile:
+                        for detail in detailsfile:
+                            cog.out(detail)
+                    cog.out(")\");")
+                else:
+                    print("-- No details are available for the {0} command.".format(name))
       ]]]*/
     //[[[end]]]
     return result;
