@@ -1,3 +1,4 @@
 launch launch_command Launch a program in WINE.
 winecfg launch_winecfg Launch winecfg.
 regedit launch_regedit Launch regedit.
+winetricks winetricks Launch winetricks.

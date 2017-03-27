@@ -12,6 +12,8 @@ using namespace cellar::commands;
 
 namespace cellar {
     namespace launch {
+        extern void popen(string);
+
     /*[[[cog
          import cog
          

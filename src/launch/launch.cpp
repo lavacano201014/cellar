@@ -15,10 +15,9 @@ using namespace cellar;
 void cellar::launch::launch_program(vector<string> args) {
     vector<string> wineargs = args;
     wineargs[0] = "wine";
-
+    
     string winelaunch = boost::algorithm::join(wineargs, " ");
-    auto wine = subprocess::Popen(winelaunch);
-    wine.wait();
+    launch::popen(winelaunch);
 }
 
 void cellar::launch::launch_command(int argc, vector<string> args) {
@@ -27,4 +26,10 @@ void cellar::launch::launch_command(int argc, vector<string> args) {
         return;
     }
     launch::launch_program(args);
+}
+
+// BULLSHIT: subprocess.hpp throws linker errors if included in multiple files
+void cellar::launch::popen(string argv) {
+    auto wine = subprocess::Popen(argv);
+    wine.wait();
 }
