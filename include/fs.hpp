@@ -10,6 +10,7 @@ using namespace std;
 namespace cellar {
 	namespace fs {
 		extern vector<string> listdir(string path);
+        extern bool recursive_copy(string, string);
 	}
 }
 
