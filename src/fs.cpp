@@ -46,3 +46,20 @@ bool cellar::fs::recursive_copy(string src, string dst) {
 
     return true;
 }
+
+bool cellar::fs::recursive_remove(string target) {
+    if (!filesystem::exists(target)) { return false; }
+
+    for (string itemrel : cellar::fs::listdir(target)) {
+        string itemabs = target + "/" + itemrel;
+
+        auto itemstat = filesystem::symlink_status(itemabs);
+
+        if (filesystem::is_directory(itemstat)) { recursive_remove(itemabs); }
+        else { filesystem::remove(itemabs); }
+    }
+
+    filesystem::remove(target);
+
+    return true;
+}

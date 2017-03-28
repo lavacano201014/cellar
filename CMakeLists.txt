@@ -3,6 +3,16 @@ project(cellar CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_CXX_FLAGS -pipe)
+set(CMAKE_CXX_FLAGS_DEBUG -O0 -g)
+set(CMAKE_CXX_FLAGS_RELEASE -O2)
+set(CMAKE_CXX_FLAGS_RELWITHDBGINFO ${CMAKE_CXX_FLAGS_RELEASE} -g)
+
+if(NOT CMAKE_BUILD_TYPE)
+        message(STATUS "Assuming this is a release build. -DCMAKE_BUILD_TYPE=Debug otherwise.")
+        set(CMAKE_BUILD_TYPE Release FORCE)
+endif(NOT CMAKE_BUILD_TYPE)
+
 # local cmake modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/Modules)
 

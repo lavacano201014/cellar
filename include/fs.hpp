@@ -11,6 +11,7 @@ namespace cellar {
 	namespace fs {
 		extern vector<string> listdir(string path);
         extern bool recursive_copy(string, string);
+        extern bool recursive_remove(string);
 	}
 }
 
