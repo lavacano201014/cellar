@@ -1,0 +1,5 @@
+cellar cork [-k|--keep] <bottle>
+
+Copies the cellar.json file for <bottle> to ~/.local/share/cellar/corked, then
+removes the bottle from the filesystem (unless --keep is specified). This
+bottle can then be uncorked later using the "uncork" command.

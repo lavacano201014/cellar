@@ -1,0 +1,14 @@
+cellar uncork <bottle>
+
+Uncorks a bottle, based on the configuration for <bottle> saved in
+~/.local/share/cellar by a previous cork command.
+
+Specifically, and in order:
+ - First, the wine bottle is generated at ~/.wine.<bottle>
+ - Then, the configuration is copied to the directory as "cellar.json"
+ - If the configuration has any winetricks saved, cellar will rerun them
+   automatically.
+ - If the configuration references any pressed installers, cellar will run
+   those in the new wine bottle as well.
+
+Effectively, "uncorking" a bottle regenerates it from a saved configuration.

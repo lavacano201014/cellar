@@ -5,5 +5,5 @@ config config_command Change configuration options.
 create create_bottle Create a new WINE bottle.
 remove remove_bottle Remove a WINE bottle.
 cork cork_command Cork a bottle, to be "uncorked" later.
-press press_command
+press press_command Press an installer into a WINE bottle.
 uncork uncork_command Uncork a bottle.

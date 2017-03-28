@@ -1,0 +1,8 @@
+cellar press [<options>] <installer>
+
+Presses an installer into the wine bottle, first by copying the installer to
+~/.local/share/cellar/pressed, then running it in the wine bottle.
+
+Options:
+  -n  Don't actually execute the installer, just press it. This is useful for
+      preparing existing WINE bottles to be corked.
