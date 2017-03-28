@@ -1,0 +1,8 @@
+cellar create <bottle>
+
+Creates a WINE bottle, if a template exists. Or, if asked to create the
+template bottle, does so, either by copying the existing bottle at ~/.wine
+or asking WINE to generate a new one.
+
+The template bottle can otherwise be treated the same as any other bottle,
+e.g. specified by the global -b argument.

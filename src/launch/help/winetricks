@@ -1,0 +1,5 @@
+cellar winetricks <args>
+
+Runs winetricks with the specified arguments. cellar picks up on what packages
+you're installing and saves them in cellar.json, which is useful if you decide
+to cork this bottle.
