@@ -29,8 +29,8 @@ DLL_PUBLIC map<string, CommandFunction> cellar::commands::launch_commands() {
                     desc = " ".join(linesplit[2:]) # Rest of line assumed to be description
                     cog.outl("cellar::help::set_description(\"{0}\", \"{1}\");"
                              .format(name, desc
-                             .replace("\"", "\\\"")
-                             .replace("\\", "\\\\")))
+                             .replace("\\", "\\\\")
+                             .replace("\"", "\\\"")))
                              # the replace methods escape " and \ characters
                 else:
                     print("-- No description is available for the {0} command.".format(name))
