@@ -3,3 +3,4 @@ active print_active_bottle Get the currently active WINE bottle.
 activate switch_active_bottle Switch the active WINE bottle.
 config config_command Change configuration options.
 create create_bottle Create a new WINE bottle.
+remove remove_bottle Remove a WINE bottle.

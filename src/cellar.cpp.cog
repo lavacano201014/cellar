@@ -28,6 +28,7 @@ using namespace std;
 using namespace cellar;
 using json = nlohmann::json;
 
+bool cellar::dryrun;
 bool cellar::verbose;
 
 bottles::Bottle cellar::active_bottle;
@@ -52,6 +53,9 @@ int main(int argc, char* argv[]) {
         TCLAP::ValueArg<string> bottlearg("b", "bottle", "Use a wine bottle other than the one at ~/.wine", false, "", "bottle");
         cmdparse.add(bottlearg);
         
+        TCLAP::SwitchArg dryrunarg("d", "dry-run", "Doesn't actually do anything");
+        cmdparse.add(dryrunarg);
+        
         TCLAP::SwitchArg verbosearg("v", "verbose", "Enables extra output");
         cmdparse.add(verbosearg);
         
@@ -63,6 +67,7 @@ int main(int argc, char* argv[]) {
 
         cmdparse.parse(argc, argv);
 
+        dryrun = dryrunarg.getValue();
         verbose = verbosearg.getValue();
 
         // BULLSHIT: trying to use str.format on this string causes bizarre compiler errors

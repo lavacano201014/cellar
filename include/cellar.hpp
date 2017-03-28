@@ -13,6 +13,7 @@ namespace cellar {
 
     extern bottles::Bottle active_bottle;
     
+    extern bool dryrun;
     extern bool verbose;
 }
 
