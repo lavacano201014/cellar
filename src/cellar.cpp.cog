@@ -31,7 +31,7 @@ using json = nlohmann::json;
 bool cellar::dryrun;
 bool cellar::verbose;
 
-bottles::Bottle cellar::active_bottle;
+bottles::Bottle cellar::bottles::active_bottle;
 
 void cellar::print_header() {
     output::statement("cellar - bottle management tool for WINE connoisseurs");
@@ -90,18 +90,18 @@ int main(int argc, char* argv[]) {
                 string env_wineprefix = getenv("WINEPREFIX");
                 output::warning("cellar was designed to handle WINEPREFIX for you with the -b argument");
                 output::warning("WINEPREFIX will be respected for consistency");
-                active_bottle = bottles::Bottle(env_wineprefix);
+                bottles::active_bottle = bottles::Bottle(env_wineprefix);
             } else {
                 string homepath = getenv("HOME");
                 string fullbottlepath = homepath + "/.wine";
-                active_bottle = bottles::Bottle(fullbottlepath);
+                bottles::active_bottle = bottles::Bottle(fullbottlepath);
             }
 
             set_environment = false;
         } else {
             string bottlechoice = bottlearg.getValue();
             if (bottlechoice.substr(0,1) == "/" || bottlechoice.substr(0,1) == ".") { // absolute or relative path
-                active_bottle = bottles::Bottle(bottlechoice);
+                bottles::active_bottle = bottles::Bottle(bottlechoice);
             } else if (bottlechoice.substr(0,1) == "~") { // "absolute" path in home directory, not expanded by the shell for some reason (i've seen some shit)
                 // this is a naive replacement and will fail if the user tries something like ~nick/.wine
                 // i'm figuring at that point if you're doing that, you'll also recognize if your shell
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
                 bottlechoice.replace(0,1,getenv("HOME"));
                 // or at least you'll think to use verbose mode to make sure it's loading the right directory
                 output::warning("your shell didn't expand your given path properly, doing a naive replacement", true);
-                active_bottle = bottles::Bottle(bottlechoice);
+                bottles::active_bottle = bottles::Bottle(bottlechoice);
             } else {
                 if (bottlechoice.substr(0,6) == ".wine.") {
                     output::statement("tip: cellar can add the \".wine.\" prefix automatically");
@@ -118,15 +118,15 @@ int main(int argc, char* argv[]) {
                
                 string homepath = getenv("HOME");
                 string fullbottlepath = homepath + "/.wine." + bottlechoice;
-                active_bottle = bottles::Bottle(fullbottlepath);
+                bottles::active_bottle = bottles::Bottle(fullbottlepath);
             }
         }
 
-        active_bottle.load_config();
+        bottles::active_bottle.load_config();
 
         if (set_environment) {
-            output::statement("WINEPREFIX=" + active_bottle.path, true);
-            setenv("WINEPREFIX", active_bottle.path.c_str(), 1);
+            output::statement("WINEPREFIX=" + bottles::active_bottle.path, true);
+            setenv("WINEPREFIX", bottles::active_bottle.path.c_str(), 1);
         }
 
         string usercmd = command.getValue();

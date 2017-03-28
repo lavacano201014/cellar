@@ -38,7 +38,15 @@ namespace cellar {
                 string get_config(string);
                 bool set_config(string, string);
         };
+        
+        extern Bottle active_bottle;
+    
 		extern map<string, Bottle> get_bottles();
+        extern string resolve_bottle(string);
+
+        extern void cork(string, bool);
+        extern void press(string, vector<string>, bool);
+        extern void uncork(string);
 	}
 }
 

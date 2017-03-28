@@ -45,6 +45,12 @@ bool Bottle::save_config() {
 
     ofstream configstream(jsonpath);
     configstream << this->config.dump(4);
+    configstream.close();
+
+    if (fs::exists(jsonpath + ".old")) {
+        // at this point it should be safe to remove the old config
+        fs::remove(jsonpath + ".old");
+    }
     return true;
 }
 

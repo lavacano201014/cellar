@@ -11,7 +11,6 @@
 
 #include "bottles.hpp"
 #include "internal/bottles.hpp"
-#include "dll.hpp"
 #include "fs.hpp"
 #include "output.hpp"
 
@@ -56,7 +55,7 @@ Bottle::Bottle(string patharg) {
     }
 }
 
-DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
+map<string, Bottle> cellar::bottles::get_bottles() {
 	map<string, Bottle> result;
 
 	string homepath = getenv("HOME");
@@ -71,6 +70,31 @@ DLL_PUBLIC map<string, Bottle> cellar::bottles::get_bottles() {
 	}
 
 	return result;
+}
+
+string cellar::bottles::resolve_bottle(string bottlechoice) {
+    string result;
+    if (bottlechoice.substr(0,1) == "/" || bottlechoice.substr(0,1) == ".") { // absolute or relative path
+        result = bottlechoice;
+    } else if (bottlechoice.substr(0,1) == "~") { // "absolute" path in home directory, not expanded by the shell for some reason (i've seen some shit)
+        // this is a naive replacement and will fail if the user tries something like ~nick/.wine
+        // i'm figuring at that point if you're doing that, you'll also recognize if your shell
+        // isn't actually expanding your path...
+        bottlechoice.replace(0,1,getenv("HOME"));
+        // or at least you'll think to use verbose mode to make sure it's loading the right directory
+        output::warning("your shell didn't expand your given path properly, doing a naive replacement", true);
+        result = bottlechoice;
+    } else {
+        if (bottlechoice.substr(0,6) == ".wine.") {
+            output::statement("tip: cellar can add the \".wine.\" prefix automatically");
+            bottlechoice.replace(0,6,"");
+        }
+       
+        string homepath = getenv("HOME");
+        string fullbottlepath = homepath + "/.wine." + bottlechoice;
+        result = fullbottlepath;
+    }
+    return result;
 }
 
 void cellar::bottles::print_bottles(int argc, vector<string> argv) {

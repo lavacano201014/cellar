@@ -6,7 +6,6 @@
 //#include "subprocess.hpp"
 
 #include "bottles.hpp"
-#include "cellar.hpp"
 #include "launch.hpp"
 #include "internal/launch.hpp"
 #include "output.hpp"
@@ -26,14 +25,14 @@ void cellar::launch::winetricks(int argc, vector<string> argv) {
     //output::statement(winetricks_str);
     launch::popen(winetricks_str);
 
-    if (cellar::active_bottle.config.find("winetricks") == cellar::active_bottle.config.end()) {
-        cellar::active_bottle.config.emplace("winetricks", vector<string>());
+    if (bottles::active_bottle.config.find("winetricks") == bottles::active_bottle.config.end()) {
+        bottles::active_bottle.config.emplace("winetricks", vector<string>());
     }
     for (string winetrick : winetricks_argv) {
         if (winetrick == "winetricks") { continue; }
         else if (winetrick.substr(0,1) == "-") { continue; } // opts don't get saved
-        else { cellar::active_bottle.config["winetricks"].push_back(winetrick); }
+        else { bottles::active_bottle.config["winetricks"].push_back(winetrick); }
     }
 
-    cellar::active_bottle.save_config();
+    bottles::active_bottle.save_config();
 }

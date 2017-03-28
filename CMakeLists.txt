@@ -3,10 +3,10 @@ project(cellar CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_FLAGS -pipe)
-set(CMAKE_CXX_FLAGS_DEBUG -O0 -g)
-set(CMAKE_CXX_FLAGS_RELEASE -O2)
-set(CMAKE_CXX_FLAGS_RELWITHDBGINFO ${CMAKE_CXX_FLAGS_RELEASE} -g)
+set(CMAKE_CXX_FLAGS "-pipe")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+set(CMAKE_CXX_FLAGS_RELWITHDBGINFO "${CMAKE_CXX_FLAGS_RELEASE} -g")
 
 if(NOT CMAKE_BUILD_TYPE)
         message(STATUS "Assuming this is a release build. -DCMAKE_BUILD_TYPE=Debug otherwise.")
@@ -75,8 +75,22 @@ function(get_sources globtarget output)
 endfunction(get_sources)
 
 set(cellar_LIBRARIES)
-function(cellar_library target)
-        get_sources("src/${target}/*.cpp" targetsources)
+function(cellar_library)
+        set(multiValueArgs SUBDIRS)
+        set(oneValueArgs TARGET)
+        cmake_parse_arguments(cellar_library "" "${oneValueArgs}"
+                "${multiValueArgs}" ${ARGN})
+
+        set(target ${cellar_library_TARGET})
+
+        set(targetsources)
+        foreach(subdir ${cellar_library_SUBDIRS})
+                get_sources("src/${subdir}/*.cpp" subdirsources)
+
+                foreach(source ${subdirsources})
+                        set(targetsources ${targetsources} ${source})
+                endforeach(source)
+        endforeach(subdir)
 
         add_library(${target} SHARED ${targetsources})
         add_dependencies(${target} cog)
@@ -84,8 +98,7 @@ function(cellar_library target)
         set(cellar_LIBRARIES ${cellar_LIBRARIES} ${target} PARENT_SCOPE)
 endfunction(cellar_library)
 
-cellar_library(bottles)
-cellar_library(launch)
+cellar_library(TARGET cellarlib SUBDIRS bottles launch)
 
 file(GLOB coresources RELATIVE "${CMAKE_SOURCE_DIR}"
         "${CMAKE_SOURCE_DIR}/src/*.cpp")

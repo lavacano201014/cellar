@@ -11,8 +11,6 @@ using namespace std;
 namespace cellar {
     extern void print_header();
 
-    extern bottles::Bottle active_bottle;
-    
     extern bool dryrun;
     extern bool verbose;
 }

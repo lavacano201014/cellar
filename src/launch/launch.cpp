@@ -1,8 +1,9 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #include <unistd.h>
 
-#include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string.hpp>
 #include "subprocess.hpp"
 
 #include "launch.hpp"
@@ -28,8 +29,26 @@ void cellar::launch::launch_command(int argc, vector<string> args) {
     launch::launch_program(args);
 }
 
-// BULLSHIT: subprocess.hpp throws linker errors if included in multiple files
 void cellar::launch::popen(string argv) {
-    auto wine = subprocess::Popen(argv);
-    wine.wait();
+    vector<string> argvsplit;
+    boost::algorithm::split(argvsplit, argv, boost::is_any_of(" "));
+    string exec = argvsplit[0];
+    vector<string> subargv;
+    for (int curarg = 1; curarg < argvsplit.size(); curarg++) {
+        subargv.push_back(argvsplit[curarg]);
+    }
+    auto subproc = subprocess::popen(exec, subargv);
+    cout << subproc.stdout().rdbuf();
+    cerr << subproc.stderr().rdbuf();
+}
+
+void cellar::launch::popen(vector<string> argv) {
+    string exec = argv[0];
+    vector<string> subargv;
+    for (int curarg = 1; curarg < argv.size(); curarg++) {
+        subargv.push_back(argv[curarg]);
+    }
+    auto subproc = subprocess::popen(exec, subargv);
+    cout << subproc.stdout().rdbuf();
+    cerr << subproc.stderr().rdbuf();
 }
