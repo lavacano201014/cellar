@@ -1,0 +1,3 @@
+cellar remove <bottle>
+
+Removes a WINE bottle, if it exists.
