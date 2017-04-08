@@ -14,11 +14,8 @@ using namespace std;
 using namespace cellar;
 
 void cellar::launch::launch_program(vector<string> args) {
-    vector<string> wineargs = args;
-    wineargs[0] = "wine";
-    
-    string winelaunch = boost::algorithm::join(wineargs, " ");
-    launch::popen(winelaunch);
+    args[0] = "wine";
+    launch::popen(args);
 }
 
 void cellar::launch::launch_command(int argc, vector<string> args) {
@@ -30,6 +27,8 @@ void cellar::launch::launch_command(int argc, vector<string> args) {
 }
 
 void cellar::launch::popen(string argv) {
+    output::warning("use of deprecated string based function", true);
+    output::statement("launching program: " + argv, true);
     vector<string> argvsplit;
     boost::algorithm::split(argvsplit, argv, boost::is_any_of(" "));
     string exec = argvsplit[0];
@@ -43,6 +42,7 @@ void cellar::launch::popen(string argv) {
 }
 
 void cellar::launch::popen(vector<string> argv) {
+    output::statement("launching program: " + boost::algorithm::join(argv, " "), true);
     string exec = argv[0];
     vector<string> subargv;
     for (int curarg = 1; curarg < argv.size(); curarg++) {
