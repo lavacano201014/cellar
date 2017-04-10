@@ -8,13 +8,14 @@
 
 #include "bottles.hpp"
 #include "internal/bottles.hpp"
+#include "output.hpp"
 
 using namespace std;
 using namespace boost::filesystem;
 
 void cellar::bottles::switch_active_bottle(int argc, vector<string> argv) {
     if (argc == 1) {
-        cout << "forgot to specify a bottle to activate" << endl;
+        output::error("forgot to specify a bottle to activate");
         return;
     }
 
@@ -24,7 +25,7 @@ void cellar::bottles::switch_active_bottle(int argc, vector<string> argv) {
 
     file_status targetstatus = symlink_status(targetpath);
     if (!exists(targetstatus)) {
-        cerr << "target " << targetpath << " does not exist" << endl;
+        output::error("target " + targetpath + " does not exist");
         return;
     }
 
@@ -32,12 +33,17 @@ void cellar::bottles::switch_active_bottle(int argc, vector<string> argv) {
     if (exists(bottlestatus)) {
         bool bottlesymlink = is_symlink(bottlestatus);
         if (!bottlesymlink) {
-            cerr << "refusing to clobber " << bottlepath << ": not a symlink" << endl;
+            output::error("refusing to clobber " + bottlepath + ": not a symlink");
             return;
         }
         remove(bottlepath);
     }
 
     // TODO: not blindly assume this will magically work
-    create_symlink(targetpath, bottlepath);
+    try {
+        create_symlink(targetpath, bottlepath);
+    } catch (filesystem_error &exc) {
+        output::error(exc.what());
+        return;
+    }
 }

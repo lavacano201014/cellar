@@ -19,7 +19,7 @@ void cellar::bottles::remove_bottle(int argc, vector<string> argv) {
     string fullbottlepath;
     if (bottlechoice.substr(0,1) == "/" || bottlechoice.substr(0,1) == "." || bottlechoice.substr(0,1) == "~") { // absolute or relative path
         output::error("paths not accepted");
-        return 1;
+        return;
     } else {
         if (bottlechoice.substr(0,6) == ".wine.") {
             output::statement("tip: cellar can add the \".wine.\" prefix automatically");
