@@ -13,37 +13,37 @@ using namespace cellar::commands;
 
 DLL_PUBLIC map<string, CommandFunction> cellar::commands::launch_commands() {
     map<string, CommandFunction> result;
-    /*[[[cog
-         import cog
-         import os
+/*[[[cog
+     import cog
+     import os
 
-         with open("src/launch/commands.txt") as commandfile:
-            for line in commandfile:
-                linesplit = line.strip().split(" ")
-                name = linesplit[0]
-                func = linesplit[1]
+     with open("src/launch/commands.txt") as commandfile:
+        for line in commandfile:
+            linesplit = line.strip().split(" ")
+            name = linesplit[0]
+            func = linesplit[1]
 
-                cog.outl("result.insert(pair<string,CommandFunction>(\"{0}\", &{1}));".format(name, func))
+            cog.outl("result.insert(pair<string,CommandFunction>(\"{0}\", &{1}));".format(name, func))
 
-                if (len(linesplit) > 2):
-                    desc = " ".join(linesplit[2:]) # Rest of line assumed to be description
-                    cog.outl("cellar::help::set_description(\"{0}\", \"{1}\");"
-                             .format(name, desc
-                             .replace("\\", "\\\\")
-                             .replace("\"", "\\\"")))
-                             # the replace methods escape " and \ characters
-                else:
-                    print("-- No description is available for the {0} command.".format(name))
+            if (len(linesplit) > 2):
+                desc = " ".join(linesplit[2:]) # Rest of line assumed to be description
+                cog.outl("cellar::help::set_description(\"{0}\", \"{1}\");"
+                         .format(name, desc
+                         .replace("\\", "\\\\")
+                         .replace("\"", "\\\"")))
+                         # the replace methods escape " and \ characters
+            else:
+                print("-- No description is available for the {0} command.".format(name))
 
-                if os.path.exists("src/launch/help/" + name):
-                    cog.out("cellar::help::set_details(\"{0}\", R\"(".format(name))
-                    with open("src/launch/help/" + name) as detailsfile:
-                        for detail in detailsfile:
-                            cog.out(detail, dedent=True, trimblanklines=True)
-                    cog.out(")\");")
-                else:
-                    print("-- No details are available for the {0} command.".format(name))
-      ]]]*/
-    //[[[end]]]
+            if os.path.exists("src/launch/help/" + name):
+                cog.out("cellar::help::set_details(\"{0}\", R\"(".format(name))
+                with open("src/launch/help/" + name) as detailsfile:
+                    for detail in detailsfile:
+                        cog.out(detail, trimblanklines=True)
+                cog.out(")\");")
+            else:
+                print("-- No details are available for the {0} command.".format(name))
+  ]]]*/
+//[[[end]]]
     return result;
 }
