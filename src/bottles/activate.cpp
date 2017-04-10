@@ -43,7 +43,7 @@ void cellar::bottles::switch_active_bottle(int argc, vector<string> argv) {
     try {
         create_symlink(targetpath, bottlepath);
     } catch (filesystem_error &exc) {
-        output::error(exc.what());
+        output::error((string) "Error creating symlink at ~/.wine: " + exc.what());
         return;
     }
 }
