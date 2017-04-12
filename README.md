@@ -2,25 +2,23 @@
 ### bottle management tool for WINE connoisseurs
 
 ## Installation
-```
-$ mkdir build && cd build
-$ cmake ..
-$ make -j4
-$ sudo make install
-```
+
+    $ mkdir build && cd build
+    $ cmake ..
+    $ make -j4
+    $ sudo make install
 
 ## Quick Usage Primer
-```
-$ cellar create steam
-$ cellar -b steam winetricks vcrun2012
 
-# without the -b argument, cellar assumes you want to deal with ~/.wine
-# you can manage which bottle that points to with this command
-$ cellar activate steam
+    $ cellar create steam
+    $ cellar -b steam winetricks vcrun2012
 
-# arguments passed to "cellar launch" are passed to wine
-$ cellar launch /mnt/windows/Steam/Steam.exe
-```
+    # without the -b argument, cellar assumes you want to deal with ~/.wine
+    # you can manage which bottle that points to with this command
+    $ cellar activate steam
+
+    # arguments passed to "cellar launch" are passed to wine
+    $ cellar launch /mnt/windows/Steam/Steam.exe
 
 ## Features
 * **Corking**: Saves a bottle's configuration, including any pressed installers (see below) or installed winetricks, to a directory, then removes the WINE bottle from disk.
