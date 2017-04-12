@@ -32,4 +32,4 @@
   different WINE configurations, but that doesn't mean you need the drastic headaches.
 
 ## License
-Cellar is available under (the MIT license)[https://opensource.org/licenses/MIT].
+Cellar is available under [the MIT license](https://opensource.org/licenses/MIT).
