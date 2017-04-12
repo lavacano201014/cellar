@@ -2,7 +2,7 @@
 ### bottle management tool for WINE connoisseurs
 
 ## Installation
-```sh
+```
 $ mkdir build && cd build
 $ cmake ..
 $ make -j4
@@ -10,7 +10,7 @@ $ sudo make install
 ```
 
 ## Quick Usage Primer
-```sh
+```
 $ cellar create steam
 $ cellar -b steam winetricks vcrun2012
 
