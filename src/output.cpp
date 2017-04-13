@@ -66,3 +66,9 @@ void cellar::output::error(string str_message, bool verbose) {
 }
 void cellar::output::error(string str_message) { error(str_message, false); }
 
+void cellar::output::blank_line(bool verbose) {
+    if (verbose and !cellar::verbose) { return; }
+    if (colors) { // don't output if not in colors mode, for easier parsing
+        cout << endl;
+    }
+}

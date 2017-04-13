@@ -12,6 +12,8 @@ namespace cellar {
         extern void statement(std::string parm, bool);
         extern void warning(std::string, bool);
         extern void error(std::string, bool);
+
+        extern void blank_line(bool verbose = false);
         
         extern bool colors;
         extern void detect_colors();

@@ -17,7 +17,7 @@ void cellar::core::help_command(int argc, vector<string> argv) {
     vector<string> commands = list_commands();
     cellar::print_header();
 
-    cout << endl; // TODO: cellar::output function for code clarity
+    output::blank_line();
 
     if (argc == 1) {
         output::statement("You have these commands:");
@@ -42,7 +42,7 @@ void cellar::core::help_command(int argc, vector<string> argv) {
         else { sstr << desc; }
         output::statement(sstr.str());
 
-        cout << endl;
+        output::blank_line();
 
         string details = help::get_details(command);
         if (details.empty()) { output::statement("no details available."); }
@@ -52,7 +52,7 @@ void cellar::core::help_command(int argc, vector<string> argv) {
 
             for (string line : detaillines) { 
                 if (!line.empty()) { output::statement(line); }
-                else { cout << endl; }
+                else { output::blank_line(); }
             }
         }
     }
