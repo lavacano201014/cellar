@@ -13,7 +13,7 @@
 using namespace std;
 using namespace cellar;
 
-void cellar::commands::help_command(int argc, vector<string> argv) {
+void cellar::core::help_command(int argc, vector<string> argv) {
     vector<string> commands = list_commands();
     cellar::print_header();
 

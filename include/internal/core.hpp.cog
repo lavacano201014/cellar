@@ -11,16 +11,18 @@
 using namespace cellar::commands;
 
 namespace cellar {
-    namespace commands {
+    namespace core {
     /*[[[cog
          import cog
          
-         with open("src/commands.txt") as commandsfile:
+         with open("src/core/commands.txt") as commandsfile:
             for line in commandsfile:
                 item = line.strip().split(" ")
                 cog.outl("extern void {0} (int, vector<string>);".format(item[1]))
       ]]]*/
     //[[[end]]]
+    }
+    namespace commands {
         extern map<string, cellar::commands::CommandFunction> core_commands();
     }
 }

@@ -5,6 +5,8 @@
 
 #include "commands.hpp"
 #include "internal/core.hpp"
+#include "internal/bottles.hpp"
+#include "internal/launch.hpp"
 #include "cellar.hpp"
 #include "help.hpp"
 
@@ -21,39 +23,51 @@ vector<string> cellar::commands::list_commands() {
     return result;
 }
 
-map<string, CommandFunction> cellar::commands::core_commands() {
-    map<string, CommandFunction> result;
 /*[[[cog
      import cog
+     import os
      import os.path
 
-     with open("src/commands.txt") as commandfile:
-        for line in commandfile:
-            linesplit = line.strip().split(" ")
-            name = linesplit[0]
-            func = linesplit[1]
+     def recurs_command_plumbing(dirname):
+         print(" --  Recursing into", dirname)
+         for diritem in os.listdir(dirname):
+             itempath = os.path.join(dirname, diritem)
+             if os.path.isdir(itempath):
+                 recurs_command_plumbing(itempath)
+             elif diritem == "commands.txt":
+                 print(" --  Found commands file in", dirname + ", processing...")
+                 base = os.path.basename(dirname)
+                 cog.outl("map<string, CommandFunction> cellar::commands::{0}_commands() ".format(base) + "{")
+                 cog.outl("    map<string, CommandFunction> result;")
+                 with open(os.path.join(dirname, "commands.txt")) as commandfile:
+                    for line in commandfile:
+                        linesplit = line.strip().split(" ")
+                        name = linesplit[0]
+                        func = linesplit[1]
 
-            cog.outl("result.insert(pair<string,CommandFunction>(\"{0}\", &{1}));".format(name, func))
+                        cog.outl("result.insert(pair<string,CommandFunction>(\"{0}\", &{2}::{1}));".format(name, func, base))
 
-            if (len(linesplit) > 2):
-                desc = " ".join(linesplit[2:]) # Rest of line assumed to be description
-                cog.outl("cellar::help::set_description(\"{0}\", \"{1}\");"
-                         .format(name, desc
-                         .replace("\\", "\\\\")
-                         .replace("\"", "\\\"")))
-                         # the replace methods escape " and \ characters
-            else:
-                print("-- No description is available for the {0} command.".format(name))
+                        if (len(linesplit) > 2):
+                            desc = " ".join(linesplit[2:]) # Rest of line assumed to be description
+                            cog.outl("cellar::help::set_description(\"{0}\", \"{1}\");"
+                                     .format(name, desc
+                                     .replace("\\", "\\\\")
+                                     .replace("\"", "\\\"")))
+                                     # the replace methods escape " and \ characters
+                        else:
+                            print("-- No description is available for the {0} command.".format(name))
 
-            if os.path.exists("src/help/" + name):
-                cog.out("cellar::help::set_details(\"{0}\", R\"(".format(name))
-                with open("src/help/" + name) as detailsfile:
-                    for detail in detailsfile:
-                        cog.out(detail, trimblanklines=True)
-                cog.out(")\");")
-            else:
-                print("-- No details are available for the {0} command.".format(name))
+                        if os.path.exists("src/{0}/help/{1}".format(base, name)):
+                            cog.out("cellar::help::set_details(\"{0}\", R\"(".format(name))
+                            with open("src/{0}/help/{1}".format(base, name)) as detailsfile:
+                                for detail in detailsfile:
+                                    cog.out(detail, trimblanklines=True)
+                            cog.out(")\");")
+                        else:
+                            print("-- No details are available for the {0} command.".format(name))
+                 cog.outl("    return result;")
+                 cog.outl("}")
+
+     recurs_command_plumbing("src")
   ]]]*/
 //[[[end]]]
-    return result;
-}
