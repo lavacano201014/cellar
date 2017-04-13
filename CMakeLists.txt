@@ -98,7 +98,7 @@ function(cellar_library)
         set(cellar_LIBRARIES ${cellar_LIBRARIES} ${target} PARENT_SCOPE)
 endfunction(cellar_library)
 
-cellar_library(TARGET cellarlib SUBDIRS bottles launch)
+cellar_library(TARGET cellarlib SUBDIRS bottles launch config)
 
 file(GLOB coresources RELATIVE "${CMAKE_SOURCE_DIR}"
         "${CMAKE_SOURCE_DIR}/src/*.cpp")

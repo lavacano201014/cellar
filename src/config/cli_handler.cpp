@@ -3,7 +3,7 @@
 
 #include "bottles.hpp"
 #include "cellar.hpp"
-#include "internal/bottles.hpp"
+#include "internal/config.hpp"
 #include "output.hpp"
 
 using namespace std;
@@ -12,7 +12,7 @@ using namespace cellar::bottles;
 
 using json = nlohmann::json;
 
-void cellar::bottles::config_command(int argc, vector<string> argv) {
+void cellar::config::config_command(int argc, vector<string> argv) {
     if (argc == 1) {
         output::error("not enough arguments");
         return;

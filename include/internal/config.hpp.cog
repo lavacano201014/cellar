@@ -1,0 +1,30 @@
+// vim: filetype=cpp :
+#ifndef __INTERNAL_CORE_HPP
+#define __INTERNAL_CORE_HPP
+#pragma once
+
+#include <map>
+#include <string>
+
+#include "commands.hpp"
+
+using namespace cellar::commands;
+
+namespace cellar {
+    namespace config {
+    /*[[[cog
+         import cog
+         
+         with open("src/config/commands.txt") as commandsfile:
+            for line in commandsfile:
+                item = line.strip().split(" ")
+                cog.outl("extern void {0} (int, vector<string>);".format(item[1]))
+      ]]]*/
+    //[[[end]]]
+    }
+    namespace commands {
+        extern map<string, cellar::commands::CommandFunction> config_commands();
+    }
+}
+
+#endif // __INTERNAL_CORE_HPP

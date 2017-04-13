@@ -4,9 +4,13 @@
 #include <vector>
 
 #include "commands.hpp"
-#include "internal/core.hpp"
-#include "internal/bottles.hpp"
-#include "internal/launch.hpp"
+/*[[[cog
+     import cog
+     with open("src/modules.txt") as modulesfile:
+         for module in modulesfile:
+             cog.outl("#include \"internal/{0}.hpp\"".format(module.strip()))
+  ]]]*/
+//[[[end]]]
 #include "cellar.hpp"
 #include "help.hpp"
 
@@ -24,7 +28,6 @@ vector<string> cellar::commands::list_commands() {
 }
 
 /*[[[cog
-     import cog
      import os
      import os.path
 
