@@ -65,7 +65,7 @@ vector<string> cellar::commands::list_commands() {
                             with open("src/{0}/help/{1}".format(base, name)) as detailsfile:
                                 for detail in detailsfile:
                                     cog.out(detail, trimblanklines=True)
-                            cog.out(")\");")
+                            cog.outl(")\");")
                         else:
                             print("-- No details are available for the {0} command.".format(name))
                  cog.outl("    return result;")
