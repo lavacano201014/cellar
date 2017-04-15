@@ -1,6 +1,6 @@
 // vim: filetype=cpp :
-#ifndef __INTERNAL_CORE_HPP
-#define __INTERNAL_CORE_HPP
+#ifndef __INTERNAL_CONFIG_HPP
+#define __INTERNAL_CONFIG_HPP
 #pragma once
 
 #include <map>
@@ -27,4 +27,4 @@ namespace cellar {
     }
 }
 
-#endif // __INTERNAL_CORE_HPP
+#endif // __INTERNAL_CONFIG_HPP
