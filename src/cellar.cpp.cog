@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
         cmdparse.parse(argc, argv);
 
         dryrun = dryrunarg.getValue();
-        verbose = verbosearg.getValue();
+        verbose = dryrun || verbosearg.getValue();
 
         // BULLSHIT: trying to use str.format on this string causes bizarre compiler errors
         /*[[[cog
