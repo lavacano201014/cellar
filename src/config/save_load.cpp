@@ -6,16 +6,23 @@
 #include <boost/filesystem/path.hpp>
 #include "json.hpp"
 
+#include "cellar.hpp"
 #include "bottles.hpp"
+#include "output.hpp"
 
 using namespace std;
+using namespace cellar;
 using namespace cellar::bottles;
 
 namespace fs = boost::filesystem;
 
 using json = nlohmann::json;
 
+json cellar::global_config;
+
 bool Bottle::load_config() {
+    bool globalconfig = false;
+    bool localconfig = false;
     string jsonpath = this->canonical_path + "/cellar.json";
     if (fs::exists(jsonpath)) {
         json config;
@@ -25,11 +32,36 @@ bool Bottle::load_config() {
         config = json::parse(sstr_config.str());
            
         this->config = config;
-        return true;
+        localconfig = true;
     }
     else {
-        return false;
+        output::warning("local config for this bottle doesn't exist", true);
     }
+
+    // Get path to global cellar.json
+    // (which should be ~/.local/share/cellar/cellar.json unless the user set XDG_DATA_HOME)
+    stringstream sstr_globalpath;
+    char* xdgdir = getenv("XDG_DATA_HOME");
+    if (xdgdir == nullptr || xdgdir == "") {
+        sstr_globalpath << getenv("HOME") << "/.local/share/cellar";
+    } else {
+        sstr_globalpath << xdgdir << "/cellar";
+    }
+    sstr_globalpath << "/cellar.json";
+
+    string globaljsonpath = sstr_globalpath.str();
+    if (fs::exists(globaljsonpath)) {
+        ifstream configstream(globaljsonpath);
+        stringstream sstr_config;
+        sstr_config << configstream.rdbuf();
+        cellar::global_config = json::parse(sstr_config.str());
+
+        globalconfig = true;
+    } else {
+        output::warning("global cellar config doesn't exist", true);
+    }
+
+    return localconfig || globalconfig; // should return true if either one of these do
 }
 
 bool Bottle::save_config() {

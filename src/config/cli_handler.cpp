@@ -46,8 +46,10 @@ void cellar::config::config_command(int argc, vector<string> argv) {
             return;
         }
 
-        if (value != "") {
-            output::statement(key + ": " + value);
+        string myval = active_bottle.get_config(key);
+
+        if (myval != "") {
+            output::statement(key + ": " + myval);
         } else {
             output::error(key + " is not defined");
         }
