@@ -1,5 +1,6 @@
 # cellar
 ### bottle management tool for WINE connoisseurs
+*(this software is considered unfinished, use at own risk)*
 
 (notice: https://github.com/lavacano201014/cellar is a mirror. The upstream repository is at [vcs.lavacano.net/cellar.git](http://vcs.lavacano.net/?p=cellar.git), and bugs are officially tracked at [mantis.lavacano.net](http://mantis.lavacano.net))
 
@@ -30,7 +31,7 @@
   cork this bottle later, this installer will automatically be run after uncorking. If the installer comes with "unattended install" arguments, it's recommended you press
   those in too.
 * **Easy WINE and bottle management**: Need a specific bottle for a specific program? `cellar -b bottlename <command>`. Does the bottle need to run a specific instance of
-  WINE? `cellar config wine_path /opt/wine-specific/bin/wine`. Confused about which bottle is "active"? `cellar active` will tell you. Different programs may need drastically
+  WINE? `cellar config wine-path /opt/wine-specific/bin/wine`. Confused about which bottle is "active"? `cellar active` will tell you. Different programs may need drastically
   different WINE configurations, but that doesn't mean you need the drastic headaches.
 
 ## License
