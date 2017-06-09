@@ -6,6 +6,7 @@
 #include <boost/algorithm/string.hpp>
 #include "subprocess.hpp"
 
+#include "bottles.hpp"
 #include "launch.hpp"
 #include "internal/launch.hpp"
 #include "output.hpp"
@@ -14,7 +15,11 @@ using namespace std;
 using namespace cellar;
 
 void cellar::launch::launch_program(vector<string> args) {
-    args[0] = "wine";
+    string winepath = bottles::active_bottle.get_config("wine-path");
+    if (winepath == "") { winepath = "wine"; } // lets assume wine is in PATH if there's no config for it
+                                               // TODO: better support for compiled in defaults (cogrc?)
+
+    args[0] = winepath;
     launch::popen(args);
 }
 

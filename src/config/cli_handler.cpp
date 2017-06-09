@@ -57,8 +57,7 @@ void cellar::config::config_command(int argc, vector<string> argv) {
             return;
         }
 
-        string key = argv[2];
-        string newvalue = argv[3];
+        string newvalue = value;
         string oldvalue = active_bottle.get_config(key);
 
         if (active_bottle.set_config(key, newvalue)) {
