@@ -1,0 +1,37 @@
+cellar(1) - bottle management tool for WINE connoisseurs
+========================================================
+
+## SYNOPSIS
+
+`cellar` [-dv] [-b <bottle>] [--] <command> <subargs>
+
+## DESCRIPTION
+
+`cellar` is a tool for managing WINE bottles. `cellar` arguments are divided like this:
+
+ * First, [GLOBAL OPTIONS][] are processed. These control things like program verbosity, which bottle to use,
+   and other settings that are relevant no matter what you're doing.
+ * Second, cellar takes a [COMMAND][#COMMANDS], and that command probably has its own set of arguments and flags.
+   TCLAP is generally used as the command line parser, which provides a -- argument to separate the command from
+   the global options (e.g. `cellar -v -- create bottlename`). If the program seems to be interpreting a flag
+   ambiguously, try this first.
+
+## GLOBAL OPTIONS
+
+ * `-v`, `--verbose`:
+    Enable verbose output.
+
+ * `-d', `--dryrun`:
+    Don't actually do anything, just print what you would do. Implies `--verbose`.
+
+ * `-b`, `--bottle <bottlename>`:
+    Specify that you want to use the bottle named <bottlename>, instead of the one activated with the "cellar activate"
+    command.
+
+## COMMANDS
+
+TODO: Generate this.
+
+## COPYRIGHT
+
+Copyright © 2017 Nicholas O'Connor. Provided under the terms of the MIT license: https://opensource.org/licenses/MIT

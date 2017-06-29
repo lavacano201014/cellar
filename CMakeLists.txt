@@ -23,6 +23,8 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/cellar")
 # which point to directories outside the build tree to the install RPATH
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+include(Ronn)
+
 find_package(PythonInterp)
 find_package(PythonModule)
 find_python_module(cogapp REQUIRED)
@@ -116,6 +118,9 @@ target_link_libraries(cellar ${cellar_LIBRARIES} ${Boost_LIBRARIES})
 add_dependencies(cellar cog) # effectively redundant but a couple of the bin's
                              # files are cogged, so this is mostly for people
                              # looking at CMakeLists.txt for hints
+
+generate_manpage(cellar 1)
+add_manpage_target()
 
 install(TARGETS cellar ${cellar_LIBRARIES}
         RUNTIME DESTINATION bin
