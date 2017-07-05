@@ -29,7 +29,7 @@ else(NOT RONN OR NOT GZIP)
         add_custom_command(OUTPUT "${outfile}.gz"
                 DEPENDS "${outfile}"
                 COMMAND "${GZIP}"
-                ARGS    -f "${outfile}"
+                ARGS    -fk "${outfile}"
         )
         set(manpages ${manpages} "${outfile}.gz")
     endmacro(generate_manpage)
