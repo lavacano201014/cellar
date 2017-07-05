@@ -55,11 +55,14 @@ file(GLOB_RECURSE cogfiles RELATIVE "${CMAKE_SOURCE_DIR}"
         "${CMAKE_SOURCE_DIR}/*.cog")
 
 foreach(cogfile ${cogfiles})
+        # thisfile = absolute path to output file
+        # outfile = relative path
+        # TODO: fix that
         string(REGEX REPLACE ".cog\$" "" outfile "${cogfile}")
-        set(thisfile "${CMAKE_SOURCE_DIR}/${outfile}")
+        set(thisfile "${CMAKE_CURRENT_BINARY_DIR}/${outfile}")
 
         add_custom_command(OUTPUT "${thisfile}" PRE_BUILD
-                COMMAND ${PYTHON_EXECUTABLE} -m cogapp -d -o "${outfile}" "${cogfile}"
+                COMMAND ${PYTHON_EXECUTABLE} -m cogapp -d -o "${thisfile}" "${cogfile}"
                 DEPENDS ${cogfile}
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                 COMMENT "Greasing the cog for ${outfile}")
