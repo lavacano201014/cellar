@@ -7,6 +7,7 @@
 #include <boost/filesystem/path.hpp>
 
 #include "bottles.hpp"
+#include "cellar.hpp"
 #include "internal/bottles.hpp"
 #include "output.hpp"
 
@@ -36,9 +37,12 @@ void cellar::bottles::switch_active_bottle(int argc, vector<string> argv) {
             output::error("refusing to clobber " + bottlepath + ": not a symlink");
             return;
         }
-        remove(bottlepath);
+        output::statement("removing existing symlink at " + bottlepath, true);
+        if (!cellar::dryrun) { remove(bottlepath); }
     }
 
+    output::statement("creating symlink to " + targetpath + " at " + bottlepath, true);
+    if (cellar::dryrun) { return; }
     // TODO: not blindly assume this will magically work
     try {
         create_symlink(targetpath, bottlepath);
