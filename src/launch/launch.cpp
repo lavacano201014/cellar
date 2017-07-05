@@ -6,6 +6,7 @@
 #include <boost/algorithm/string.hpp>
 #include "subprocess.hpp"
 
+#include "cellar.hpp"
 #include "bottles.hpp"
 #include "launch.hpp"
 #include "internal/launch.hpp"
@@ -48,12 +49,14 @@ void cellar::launch::popen(string argv) {
 
 void cellar::launch::popen(vector<string> argv) {
     output::statement("launching program: " + boost::algorithm::join(argv, " "), true);
-    string exec = argv[0];
-    vector<string> subargv;
-    for (int curarg = 1; curarg < argv.size(); curarg++) {
-        subargv.push_back(argv[curarg]);
+    if (!dryrun) {
+        string exec = argv[0];
+        vector<string> subargv;
+        for (int curarg = 1; curarg < argv.size(); curarg++) {
+            subargv.push_back(argv[curarg]);
+        }
+        auto subproc = subprocess::popen(exec, subargv);
+        cout << subproc.stdout().rdbuf();
+        cerr << subproc.stderr().rdbuf();
     }
-    auto subproc = subprocess::popen(exec, subargv);
-    cout << subproc.stdout().rdbuf();
-    cerr << subproc.stderr().rdbuf();
 }
