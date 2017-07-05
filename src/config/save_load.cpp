@@ -19,6 +19,7 @@ namespace fs = boost::filesystem;
 using json = nlohmann::json;
 
 json cellar::global_config;
+json cellar::compiled_config;
 
 bool Bottle::load_config() {
     bool globalconfig = false;
@@ -48,6 +49,9 @@ bool Bottle::load_config() {
         sstr_globalpath << xdgdir << "/cellar";
     }
     sstr_globalpath << "/cellar.json";
+    
+    // see src/config/defaults.cpp.cog
+    compiled_config = cellar::config::get_default_config();
 
     string globaljsonpath = sstr_globalpath.str();
     if (fs::exists(globaljsonpath)) {
@@ -89,6 +93,10 @@ bool Bottle::save_config() {
 string Bottle::get_config(string key) {
     if (this->config.find(key) != this->config.end()) {
         return this->config[key];
+    } else if (cellar::global_config.find(key) != cellar::global_config.end()) {
+        return cellar::global_config[key];
+    } else if (cellar::compiled_config.find(key) != cellar::compiled_config.end()) {
+        return cellar::compiled_config[key];
     } else {
         return "";
     }
