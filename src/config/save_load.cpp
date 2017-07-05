@@ -7,6 +7,7 @@
 #include "json.hpp"
 
 #include "cellar.hpp"
+#include "config.hpp"
 #include "bottles.hpp"
 #include "output.hpp"
 
@@ -18,8 +19,8 @@ namespace fs = boost::filesystem;
 
 using json = nlohmann::json;
 
-json cellar::global_config;
-json cellar::compiled_config;
+json cellar::config::global_config;
+json cellar::config::compiled_config;
 
 bool Bottle::load_config() {
     bool globalconfig = false;
@@ -51,14 +52,14 @@ bool Bottle::load_config() {
     sstr_globalpath << "/cellar.json";
     
     // see src/config/defaults.cpp.cog
-    compiled_config = cellar::config::get_default_config();
+    config::compiled_config = config::get_default_config();
 
     string globaljsonpath = sstr_globalpath.str();
     if (fs::exists(globaljsonpath)) {
         ifstream configstream(globaljsonpath);
         stringstream sstr_config;
         sstr_config << configstream.rdbuf();
-        cellar::global_config = json::parse(sstr_config.str());
+        config::global_config = json::parse(sstr_config.str());
 
         globalconfig = true;
     } else {
@@ -93,10 +94,10 @@ bool Bottle::save_config() {
 string Bottle::get_config(string key) {
     if (this->config.find(key) != this->config.end()) {
         return this->config[key];
-    } else if (cellar::global_config.find(key) != cellar::global_config.end()) {
-        return cellar::global_config[key];
-    } else if (cellar::compiled_config.find(key) != cellar::compiled_config.end()) {
-        return cellar::compiled_config[key];
+    } else if (config::global_config.find(key) != config::global_config.end()) {
+        return config::global_config[key];
+    } else if (config::compiled_config.find(key) != config::compiled_config.end()) {
+        return config::compiled_config[key];
     } else {
         return "";
     }

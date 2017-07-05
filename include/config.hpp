@@ -9,6 +9,9 @@ using nlohmann::json;
 namespace cellar {
     namespace config {
         json get_default_config();
+
+        extern json global_config;
+        extern json compiled_config;
     }
 }
 
