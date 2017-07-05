@@ -36,6 +36,9 @@ else(NOT RONN OR NOT GZIP)
 
     macro(add_manpage_target) # this is a macro so we can call it after we've generated all our manpages
         add_custom_target(man ALL DEPENDS ${manpages})
-        install(FILES ${manpages} DESTINATION "${MAN_INSTALL_DIR}/man${SECTION}" OPTIONAL)
+        foreach(SECTION RANGE 1 9)
+            file(GLOB sectionpages RELATIVE "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/man/*.${SECTION}.gz")
+            install(FILES ${sectionpages} DESTINATION "${MAN_INSTALL_DIR}/man${SECTION}" OPTIONAL)
+        endforeach(SECTION RANGE 1 9)
     endmacro(add_manpage_target)
 endif(NOT RONN OR NOT GZIP)
