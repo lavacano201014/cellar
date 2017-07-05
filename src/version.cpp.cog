@@ -1,9 +1,13 @@
 // vim: filetype=cpp :
 #include <iostream>
 #include <string>
+#ifdef IS_GIT_REPO
+#include <sstream>
+#endif
 #include <vector>
 
 #include "cellar.hpp"
+#include "cmake.hpp"
 #include "internal/core.hpp"
 #include "commands.hpp"
 #include "output.hpp"
@@ -24,25 +28,24 @@ string cellar::version::short_version() {
          cparse.read("cogrc")
          config = cparse["version"]
 
-         if config.getboolean("release"):
-            outstring = "version {0}, built {1}".format(config["release_version"], str(today))
-         else:
-            try:
-                import subprocess
-                cmdoutput = subprocess.check_output(["git", "symbolic-ref", "HEAD"]).decode().strip()
-                gitbranch = cmdoutput.split("/")[2]
-
-                githash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
-                outstring = "{0} {1}, built {2}".format(gitbranch, githash, str(today))
-            except:
-                outstring = "exception raised when trying to read git data at precompile time"
-                raise
-
-         cog.outl("return string(\"{0}\");".format(outstring))
+         cog.outl("return \"version {0}, built {1}\";".format(config["release_version"], str(today)))
     ]]]*/
     //[[[end]]]
 }
 
 void cellar::core::print_version(int argc, vector<string> argv) {
     cellar::output::statement(short_version());
+
+    #ifdef IS_GIT_REPO
+    stringstream sstr;
+    sstr << "git commit ";
+    sstr << GIT_COMMIT_HASH;
+
+    sstr << " (branch ";
+    sstr << GIT_BRANCH;
+    sstr << ")";
+
+    // " >> git commit d34db33fcafe (branch master)"
+    cellar::output::statement(sstr.str());
+    #endif
 }

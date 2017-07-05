@@ -23,6 +23,9 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/cellar")
 # which point to directories outside the build tree to the install RPATH
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+include(Git)
+git_init()
+
 include(Ronn)
 
 find_package(PythonInterp)
@@ -40,7 +43,10 @@ http://tclap.sourceforge.net and put the headers in ./include
 (wink, nudge)")
 endif(NOT TCLAP_FOUND)
 
-include_directories(include)
+include_directories("${CMAKE_SOURCE_DIR}/include")
+configure_file("${CMAKE_SOURCE_DIR}/include/cmake.hpp.in"
+                "${CMAKE_CURRENT_BINARY_DIR}/include/cmake.hpp")
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/include")
 set(src "${CMAKE_SOURCE_DIR}/src")
 
 set(coggedfiles)
