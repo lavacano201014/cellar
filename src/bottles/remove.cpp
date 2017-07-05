@@ -6,6 +6,7 @@
 #include <boost/filesystem/path.hpp>
 
 #include "bottles.hpp"
+#include "cellar.hpp"
 #include "internal/bottles.hpp"
 #include "fs.hpp"
 #include "output.hpp"
@@ -34,5 +35,6 @@ void cellar::bottles::remove_bottle(int argc, vector<string> argv) {
         return;
     }
 
-    fs::recursive_remove(fullbottlepath);
+    output::statement("removing " + fullbottlepath, true);
+    if (!dryrun) { fs::recursive_remove(fullbottlepath); }
 }

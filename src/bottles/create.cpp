@@ -7,6 +7,7 @@
 #include <tclap/CmdLine.h>
 
 #include "bottles.hpp"
+#include "cellar.hpp"
 #include "internal/bottles.hpp"
 #include "internal/launch.hpp"
 #include "fs.hpp"
@@ -58,22 +59,28 @@ void cellar::bottles::create_bottle(int argc, vector<string> argv) {
     }
 
     if (fullbottlepath != homepath + "/.wine.template") {
+        output::statement("copying template bottle to " + fullbottlepath, true);
+
         // all this gets skipped if we're creating the template bottle
         if (boost::filesystem::exists(homepath + "/.wine.template")) {
-            fs::recursive_copy(homepath + "/.wine.template", fullbottlepath);
-            return;
+            if (!dryrun) {
+                fs::recursive_copy(homepath + "/.wine.template", fullbottlepath);
+                return;
+            }
         } else {
-            output::error("no template bottle");
+            output::error("no template bottle, create one using \"cellar create template\"");
             return;
         }
     } else {
         if (boost::filesystem::exists(homepath + "/.wine")) {
             output::statement("using existing bottle at ~/.wine as template bottle");
-            fs::recursive_copy(homepath + "/.wine", fullbottlepath);
+            if (!dryrun) { fs::recursive_copy(homepath + "/.wine", fullbottlepath); }
         } else {
             output::statement("creating template bottle from scratch");
-            setenv("WINEPREFIX", fullbottlepath.c_str(), 1);
-            launch::popen("wineboot -u");
+            if (!dryrun) {
+                setenv("WINEPREFIX", fullbottlepath.c_str(), 1);
+                launch::popen("wineboot -u");
+            }
         }
     }
 }
