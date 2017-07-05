@@ -11,6 +11,8 @@
     $ make -j4
     $ sudo make install
 
+cellar also supports the use of clang as your compiler and/or ninja as your make system, for those of you who have opinions on such things.
+
 ## Quick Usage Primer
 
     $ cellar create steam
