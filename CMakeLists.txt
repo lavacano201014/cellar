@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS_RELWITHDBGINFO "${CMAKE_CXX_FLAGS_RELEASE} -g")
 
 if(NOT CMAKE_BUILD_TYPE)
         message(STATUS "Assuming this is a release build. -DCMAKE_BUILD_TYPE=Debug otherwise.")
-        set(CMAKE_BUILD_TYPE Release FORCE)
+        set(CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 
 # local cmake modules
