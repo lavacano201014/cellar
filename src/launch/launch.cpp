@@ -32,21 +32,6 @@ void cellar::launch::launch_command(int argc, vector<string> args) {
     launch::launch_program(args);
 }
 
-void cellar::launch::popen(string argv) {
-    output::warning("use of deprecated string based function", true);
-    output::statement("launching program: " + argv, true);
-    vector<string> argvsplit;
-    boost::algorithm::split(argvsplit, argv, boost::is_any_of(" "));
-    string exec = argvsplit[0];
-    vector<string> subargv;
-    for (int curarg = 1; curarg < argvsplit.size(); curarg++) {
-        subargv.push_back(argvsplit[curarg]);
-    }
-    auto subproc = subprocess::popen(exec, subargv);
-    cout << subproc.stdout().rdbuf();
-    cerr << subproc.stderr().rdbuf();
-}
-
 void cellar::launch::popen(vector<string> argv) {
     output::statement("launching program: " + boost::algorithm::join(argv, " "), true);
     if (!dryrun) {
