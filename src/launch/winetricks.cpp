@@ -21,9 +21,8 @@ void cellar::launch::winetricks(int argc, vector<string> argv) {
 
     auto winetricks_argv = argv;
     winetricks_argv[0] = "winetricks";
-    string winetricks_str = boost::algorithm::join(winetricks_argv, " ");
     //output::statement(winetricks_str);
-    launch::popen(winetricks_str);
+    launch::popen(winetricks_argv);
 
     if (bottles::active_bottle.config.find("winetricks") == bottles::active_bottle.config.end()) {
         bottles::active_bottle.config.emplace("winetricks", vector<string>());

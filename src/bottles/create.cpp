@@ -79,7 +79,9 @@ void cellar::bottles::create_bottle(int argc, vector<string> argv) {
             output::statement("creating template bottle from scratch");
             if (!dryrun) {
                 setenv("WINEPREFIX", fullbottlepath.c_str(), 1);
-                launch::popen("wineboot -u");
+                vector<string> wineboot;
+                wineboot.push_back("wineboot"); wineboot.push_back("-u");
+                launch::popen(wineboot);
             }
         }
     }

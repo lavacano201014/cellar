@@ -12,7 +12,6 @@ using namespace cellar::commands;
 
 namespace cellar {
     namespace launch {
-        extern void popen(string);
         extern void popen(vector<string>);
 
     /*[[[cog
