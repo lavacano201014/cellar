@@ -17,8 +17,11 @@ else(NOT RONN OR NOT GZIP)
     set(manpages)
     file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/man")
     macro(generate_manpage TARGET SECTION)
+        if(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/man/man${SECTION}")
+            file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/man/man${SECTION}")
+        endif()
 		set(ronnfile "${CMAKE_SOURCE_DIR}/doc/${TARGET}.${SECTION}.ronn")
-        set(outfile "${CMAKE_CURRENT_BINARY_DIR}/man/${TARGET}.${SECTION}")
+        set(outfile "${CMAKE_CURRENT_BINARY_DIR}/man/man${SECTION}/${TARGET}.${SECTION}")
         add_custom_command(OUTPUT "${outfile}"
                 DEPENDS "${ronnfile}"
                 COMMAND ${RONN}
@@ -36,9 +39,8 @@ else(NOT RONN OR NOT GZIP)
 
     macro(add_manpage_target) # this is a macro so we can call it after we've generated all our manpages
         add_custom_target(man ALL DEPENDS ${manpages})
-        foreach(SECTION RANGE 1 9)
-            file(GLOB sectionpages RELATIVE "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/man/*.${SECTION}.gz")
-            install(FILES ${sectionpages} DESTINATION "${MAN_INSTALL_DIR}/man${SECTION}" OPTIONAL)
-        endforeach(SECTION RANGE 1 9)
+        install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/man/"
+                DESTINATION share/man
+                FILES_MATCHING PATTERN "*.gz")
     endmacro(add_manpage_target)
 endif(NOT RONN OR NOT GZIP)
