@@ -32,7 +32,7 @@ find_package(PythonInterp)
 find_package(PythonModule)
 find_python_module(cogapp REQUIRED)
 
-find_package(Boost 1.63 REQUIRED COMPONENTS filesystem)
+find_package(Boost 1.63 REQUIRED COMPONENTS filesystem system)
 
 find_package(PkgConfig)
 pkg_check_modules(TCLAP "tclap >= 1.2.1")
