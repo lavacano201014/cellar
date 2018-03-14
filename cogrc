@@ -1,5 +1,5 @@
 [version]
-release_version=0.5
+release_version=0.4
 
 [defaults]
 wine-path=wine
