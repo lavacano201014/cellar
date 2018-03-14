@@ -22,7 +22,7 @@ void cellar::bottles::switch_active_bottle(int argc, vector<string> argv) {
 
     string homepath = getenv("HOME");                // /home/nick
     string bottlepath = homepath + "/.wine";         // /home/nick/.wine
-    string targetpath = bottlepath + "." + argv[1];  // /home/nick/.wine.example
+    string targetpath = homepath + "/.local/share/cellar/bottles/" + argv[1];  // /home/nick/.wine.example
 
     file_status targetstatus = symlink_status(targetpath);
     if (!exists(targetstatus)) {

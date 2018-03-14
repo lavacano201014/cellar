@@ -22,12 +22,7 @@ void cellar::bottles::remove_bottle(int argc, vector<string> argv) {
         output::error("paths not accepted");
         return;
     } else {
-        if (bottlechoice.substr(0,6) == ".wine.") {
-            output::statement("tip: cellar can add the \".wine.\" prefix automatically");
-            bottlechoice.replace(0,6,"");
-        }
-       
-        fullbottlepath = homepath + "/.wine." + bottlechoice;
+        fullbottlepath = homepath + "/.local/share/cellar/bottles/" + bottlechoice;
     }
 
     if (!boost::filesystem::exists(fullbottlepath)) {

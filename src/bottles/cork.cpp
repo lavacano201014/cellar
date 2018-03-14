@@ -7,7 +7,7 @@
 #include <boost/algorithm/string/join.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 #include "bottles.hpp"
 #include "internal/bottles.hpp"

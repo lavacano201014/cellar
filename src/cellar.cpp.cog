@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 
-#include "config.h"
+#include "config.hpp"
 #include "tclap/CmdLine.h"
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 #include "bottles.hpp"
 #include "cellar.hpp"

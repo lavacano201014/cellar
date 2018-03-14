@@ -6,7 +6,7 @@
 #include <string>
 
 #include "commands.hpp"
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 using namespace std;
 

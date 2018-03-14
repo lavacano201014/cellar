@@ -2,7 +2,7 @@
 #define __CONFIG_HPP
 #pragma once
 
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 using nlohmann::json;
 

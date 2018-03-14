@@ -4,7 +4,7 @@
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 #include "bottles.hpp"
 #include "cellar.hpp"

@@ -1,6 +1,6 @@
 // vim: ft=cpp :
 
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 #include "config.hpp"
 

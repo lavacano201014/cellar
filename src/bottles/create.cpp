@@ -45,12 +45,7 @@ void cellar::bottles::create_bottle(int argc, vector<string> argv) {
         output::warning("your shell didn't expand your given path properly, doing a naive replacement", true);
         fullbottlepath = bottlechoice;
     } else {
-        if (bottlechoice.substr(0,6) == ".wine.") {
-            output::statement("tip: cellar can add the \".wine.\" prefix automatically");
-            bottlechoice.replace(0,6,"");
-        }
-       
-        fullbottlepath = homepath + "/.wine." + bottlechoice;
+        fullbottlepath = homepath + "/.local/share/cellar/bottles/" + bottlechoice;
     }
 
     if (boost::filesystem::exists(fullbottlepath)) {
@@ -58,13 +53,13 @@ void cellar::bottles::create_bottle(int argc, vector<string> argv) {
         return;
     }
 
-    if (fullbottlepath != homepath + "/.wine.template") {
+    if (fullbottlepath != homepath + "/.local/share/cellar/bottles/template") {
         output::statement("copying template bottle to " + fullbottlepath, true);
 
         // all this gets skipped if we're creating the template bottle
-        if (boost::filesystem::exists(homepath + "/.wine.template")) {
+        if (boost::filesystem::exists(homepath + "/.local/share/cellar/bottles/template")) {
             if (!dryrun) {
-                fs::recursive_copy(homepath + "/.wine.template", fullbottlepath);
+                fs::recursive_copy(homepath + "/.local/share/cellar/bottles/template", fullbottlepath);
                 return;
             }
         } else {

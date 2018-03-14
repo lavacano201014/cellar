@@ -7,7 +7,7 @@
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 #include "bottles.hpp"
 #include "internal/bottles.hpp"
@@ -59,14 +59,12 @@ map<string, Bottle> cellar::bottles::get_bottles() {
 	map<string, Bottle> result;
 
 	string homepath = getenv("HOME");
-	vector<string> homedir = fs::listdir(homepath);
+	vector<string> homedir = fs::listdir(homepath + "/.local/share/cellar/bottles");
 	for (string item : homedir) {
-		if (item.substr(0,5) == ".wine") {
-            string fullitem = homepath + "/" + item;
-            Bottle output(fullitem);
+        string fullitem = homepath + "/.local/share/cellar/bottles/" + item;
+        Bottle output(fullitem);
 
-		    result[item] = output;
-        }
+	    result[item] = output;
 	}
 
 	return result;
@@ -85,13 +83,8 @@ string cellar::bottles::resolve_bottle(string bottlechoice) {
         output::warning("your shell didn't expand your given path properly, doing a naive replacement", true);
         result = bottlechoice;
     } else {
-        if (bottlechoice.substr(0,6) == ".wine.") {
-            output::statement("tip: cellar can add the \".wine.\" prefix automatically");
-            bottlechoice.replace(0,6,"");
-        }
-       
         string homepath = getenv("HOME");
-        string fullbottlepath = homepath + "/.wine." + bottlechoice;
+        string fullbottlepath = homepath + "/.local/share/cellar/bottles" + bottlechoice;
         result = fullbottlepath;
     }
     return result;
@@ -103,8 +96,8 @@ void cellar::bottles::print_bottles(int argc, vector<string> argv) {
     stringstream outstr;
 
     for (auto item : bottles) {
-        if (item.first == ".wine" || item.first == ".wine.template") {
-            // .wine is considered to be "active", and .wine.template is used as a template
+        if (item.first == ".wine" || item.first == ".local/share/cellar/bottles/template") {
+            // .wine is considered to be "active", and .local/share/cellar/bottles/template is used as a template
             // and therefore treated specially
             continue;
         }

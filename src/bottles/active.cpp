@@ -12,20 +12,17 @@ using namespace cellar::bottles;
 
 void cellar::bottles::print_active_bottle(int argc, vector<string> argv) {
     map<string, Bottle> bottlemap = get_bottles();
-    if (bottlemap.find(".wine") == bottlemap.end()) { // not found
-        output::error("no active wine bottle");
-        return;
-    }
 
-    Bottle active_bottle = bottlemap[".wine"];
+    Bottle active_bottle = Bottle(getenv("HOME") + string("/.wine"));
     string bottlepath = active_bottle.canonical_path;
     stringstream outstr;
     bool cellar_managed = true;
     if (active_bottle.type == bottle_symlink) {
         outstr << "symlink to ";
         string homedir = getenv("HOME");
-        if (active_bottle.canonical_path.substr(0, homedir.length()) == homedir) {
-            bottlepath.replace(0, homedir.length() + 1, ""); // should convert "/home/someone/.wine.example" to ".wine.example"
+        string bottlerack = homedir + "/.local/share/cellar/bottles";
+        if (active_bottle.canonical_path.substr(0, bottlerack.length()) == bottlerack) {
+            bottlepath.replace(0, bottlerack.length() + 1, ""); // should convert "/home/someone/.wine.example" to ".wine.example"
             active_bottle = bottlemap[bottlepath];
         } else {
             outstr << active_bottle.canonical_path;
@@ -40,7 +37,7 @@ void cellar::bottles::print_active_bottle(int argc, vector<string> argv) {
                 outstr << "anonymous wine bottle at " << active_bottle.canonical_path;
                 break;
             case bottle_labelled:
-                outstr << active_bottle.config["name"] << " (~/" << bottlepath << ")";
+                outstr << active_bottle.config["name"] << " (" << bottlepath << ")";
                 if (active_bottle.config.find("desc") != active_bottle.config.end()) {
                     outstr << " - " << active_bottle.config["desc"];
                 }
