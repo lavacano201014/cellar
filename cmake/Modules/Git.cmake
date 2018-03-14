@@ -46,7 +46,7 @@ function(git_submodule)
 
         execute_process(COMMAND git submodule update --init -- "${GIT_SUBMODULE_DIR}/${GIT_SUBMODULE_TARGET}"
             WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-            COMMENT "Updating submodule ${GIT_SUBMODULE_DIR}/${GIT_SUBMODULE_TARGET}"
+            COMMENT "Updating submodule ${Magenta}${GIT_SUBMODULE_DIR}/${GIT_SUBMODULE_TARGET}${ColourReset}"
             VERBATIM)
     endif(IS_GIT_REPO)
 endfunction(git_submodule)

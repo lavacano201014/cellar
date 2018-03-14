@@ -2,7 +2,7 @@ find_program(RONN ronn)
 find_program(GZIP gzip)
 
 if(NOT RONN OR NOT GZIP)
-	message(WARNING "Not generating manpages")
+    message(WARNING "${BoldYellow}Not generating manpages${ColourReset}")
 	if(NOT RONN)
 		message(WARNING "    ronn not installed")
 	endif(NOT RONN)

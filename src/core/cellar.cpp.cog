@@ -111,13 +111,9 @@ int main(int argc, char* argv[]) {
                 output::warning("your shell didn't expand your given path properly, doing a naive replacement", true);
                 bottles::active_bottle = bottles::Bottle(bottlechoice);
             } else {
-                if (bottlechoice.substr(0,6) == ".wine.") {
-                    output::statement("tip: cellar can add the \".wine.\" prefix automatically");
-                    bottlechoice.replace(0,6,"");
-                }
                
                 string homepath = getenv("HOME");
-                string fullbottlepath = homepath + "/.wine." + bottlechoice;
+                string fullbottlepath = homepath + "/.local/share/cellar/bottles/" + bottlechoice;
                 bottles::active_bottle = bottles::Bottle(fullbottlepath);
             }
         }
