@@ -5,9 +5,11 @@
 #include <regex>
 
 #include <boost/algorithm/string.hpp>
+#include "tclap/CmdLine.h"
 
 #include "output.hpp"
 #include "paths.hpp"
+#include "version.hpp"
 #include "internal/core.hpp"
 
 using namespace std;
@@ -54,15 +56,20 @@ string cellar::paths::translate(std::string in_path, bool lazy) {
 }
 
 void cellar::core::translate_command(int argc, vector<string> argv) {
-    if (argv.size() < 2) {
-        output::error("pass an argument");
-        return;
-    }
+    TCLAP::CmdLine cmdparse("Translate a path from Windows to UNIX, or vice versa", ' ', version::short_version(), false);
+    
+    TCLAP::SwitchArg lazyarg("l", "lazy", "Lazy path translating - don't read symlinks, just assume / is mounted on Z:");
+    cmdparse.add(lazyarg);
 
-    // TODO: tclap me later
-    vector<string> pathargs(argv.cbegin() + 1, argv.cend());
+    TCLAP::UnlabeledMultiArg<string> pathargcollector("path", "Paths to translate.", true, "PATH");
+    cmdparse.add(pathargcollector);
+
+    cmdparse.parse(argv);
+
+    bool lazy = lazyarg.getValue();
+    vector<string> pathargs = pathargcollector.getValue();
 
     for (auto arg : pathargs) {
-        cout << paths::translate(arg) << endl;
+        cout << paths::translate(arg, lazy) << endl;
     }
 }
