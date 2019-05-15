@@ -1,2 +1,3 @@
+translate translate_command Translates a path from Windows-y to POSIX or vice versa.
 version print_version Prints version information.
 help help_command Hello, there!
