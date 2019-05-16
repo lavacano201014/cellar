@@ -46,7 +46,7 @@ include_directories("${CMAKE_CURRENT_BINARY_DIR}/include")
 set(src "${CMAKE_SOURCE_DIR}/src")
 
 lava_create_gutlib(
-        SUBDIRS bottles config launch
+        SUBDIRS bottles config launch paths
         DEPENDS cog)
 
 lava_create_executable(TARGET cellar
