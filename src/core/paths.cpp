@@ -27,19 +27,22 @@ string cellar::paths::translate(std::string in_path, bool lazy) {
     }
 
     if (windows_input) {
-        // lazy
-        if (boost::algorithm::to_lower_copy(in_path.substr(0,1)) != "z") {
-            throw invalid_argument("lazy path translation isn't possible for drive letters other than Z:");
-        }
-        string out_path = in_path.substr(2, in_path.size() - 2);
-        
-        size_t slashpos = out_path.find("\\");
-        while (slashpos != std::string::npos) {
-            out_path.replace(slashpos, 1, "/");
-            slashpos = out_path.find("\\");
-        }
+        if (lazy) {
+            if (boost::algorithm::to_lower_copy(in_path.substr(0,1)) != "z") {
+                throw invalid_argument("lazy path translation isn't possible for drive letters other than Z:");
+            }
+            string out_path = in_path.substr(2, in_path.size() - 2);
+            
+            size_t slashpos = out_path.find("\\");
+            while (slashpos != std::string::npos) {
+                out_path.replace(slashpos, 1, "/");
+                slashpos = out_path.find("\\");
+            }
 
-        return out_path;
+            return out_path;
+        } else {
+            return paths::resolve_drive_letter(in_path);
+        }
     } else {
         // lazy
         string out_path = "Z:";
