@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
                 bottles::active_bottle = bottles::Bottle(env_wineprefix);
             } else {
                 string homepath = getenv("HOME");
-                string fullbottlepath = homepath + "/.local/share/cellar/bottles/" + bottlearg.getValue();
+                string fullbottlepath = homepath + "/.wine";
                 bottles::active_bottle = bottles::Bottle(fullbottlepath);
             }
 
