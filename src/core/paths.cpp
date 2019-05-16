@@ -18,9 +18,9 @@ using namespace cellar;
 string cellar::paths::translate(std::string in_path, bool lazy) {
     bool windows_input;
 
-    static regex drive_letter(R"([a-zA-Z]:\\)");
+    static regex drive_letter_rgx(R"([a-zA-Z]:\\)");
 
-    windows_input = regex_match(in_path.substr(0, 3), drive_letter);
+    windows_input = regex_match(in_path.substr(0, 3), drive_letter_rgx);
 
     if (!lazy) {
         output::warning("non-lazy path translation is not implemented yet");
